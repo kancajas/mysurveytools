@@ -1,0 +1,350 @@
+
+			/* http://meyerweb.com/eric/tools/css/reset/ 
+			   v2.0 | 20110126
+			   License: none (public domain)
+			*/
+
+			html, body, div, span, applet, object, iframe,
+			h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+			a, abbr, acronym, address, big, cite, code,
+			del, dfn, em, img, ins, kbd, q, s, samp,
+			small, strike, strong, sub, sup, tt, var,
+			b, u, i, center,
+			dl, dt, dd, ol, ul, li,
+			fieldset, form, label, legend,
+			table, caption, tbody, tfoot, thead, tr, th, td,
+			article, aside, canvas, details, embed, 
+			figure, figcaption, footer, header, hgroup, 
+			menu, nav, output, ruby, section, summary,
+			time, mark, audio, video {
+				margin: 0;
+				padding: 0;
+				border: 0;
+				font-size: 100%;
+				font: inherit;
+				vertical-align: baseline;
+			}
+			/* HTML5 display-role reset for older browsers */
+			article, aside, details, figcaption, figure, 
+			footer, header, hgroup, menu, nav, section {
+				display: block;
+			}
+			body {
+				line-height: 1;
+				background-color: #fcfaf8;
+			}
+			ol, ul {
+				list-style: none;
+			}
+			blockquote, q {
+				quotes: none;
+			}
+			blockquote:before, blockquote:after,
+			q:before, q:after {
+				content: "";
+				content: none;
+			}
+			table {
+				border-collapse: collapse;
+				border-spacing: 0;
+			}
+			/*Reset*/
+
+		
+            * {
+			    -moz-box-sizing: border-box;
+			    -webkit-box-sizing: border-box;
+			    box-sizing: border-box;
+			}
+			html,body {
+			    font-family: Calibri, Helvetica, sans-serif;
+			    font-size: 100%;
+			    overscroll-behavior-y: contain;
+			}
+			.body,
+			.body-wrap {
+				position: absolute;
+				top: 0px;
+				width: 100%;
+				height: 100%;
+			 	margin: 0;
+			 	overflow-y: hidden;
+			}
+			.body {
+			  	z-index: 1;
+			}
+			.body-wrap {
+			  	overflow-y: scroll;
+			  	z-index: 2;
+			}
+			.wrapper {
+			    border: 1px solid gray;
+				-webkit-box-shadow: 2px 2px 2px 0px rgba(199,199,199,1);
+				-moz-box-shadow: 2px 2px 2px 0px rgba(199,199,199,1);
+				box-shadow: 2px 2px 2px 0px rgba(199,199,199,1);
+			    max-width: 960px;
+			    margin: 0 auto;
+			    padding: 0px 0px 20px 0px;
+			    position:relative;
+			}
+			header {
+				background-color:  green;
+				width:100%;
+			    text-align: center;
+			    margin-bottom: 50px;
+			    background-image: url("/roro/images/shiplink.jpg");
+			    background-repeat: no-repeat;
+			    background-color: #cccccc;
+			    background-size: cover;
+			    padding:40px;
+			   /* -webkit-box-shadow: 0px 3px 7px 0px rgba(0,0,0,0.75);
+			    -moz-box-shadow: 0px 3px 7px 0px rgba(0,0,0,0.75);
+			    box-shadow: 0px 3px 7px 0px rgba(0,0,0,0.75);*/
+			}
+			input, textarea, select  {
+			    font-size: 1.1em;	
+			    border:1px solid  lightgray;	
+			    font-family: Calibri, Helvetica, sans-serif;	      
+			}
+
+			textarea{				
+				resize:none;
+				height:6em;
+				width:100%;
+			}
+
+			input[type=button]  {
+				background-color: #008CBA;
+				padding:4px 6px;
+			    border: none;
+			    color: white;
+			    font-size: 1.0em;
+			    border-radius: 1px;  
+			    -webkit-box-shadow: 2px 2px 2px 0px rgba(199,199,199,1);
+			    -moz-box-shadow: 2px 2px 2px 0px rgba(199,199,199,1);
+			    box-shadow: 2px 2px 2px 0px rgba(199,199,199,1);
+			   
+			}
+
+			input[type="button"]:disabled {
+    			background: #dddddd;
+			}
+
+			input[type=text]  {
+			    text-transform: uppercase;
+			    padding-left:2px;
+			}
+
+			#survey-loc{
+				width:300px;
+			}
+
+			#gallery-link{
+				width: 450px;
+			}
+
+			
+			@media only screen and (max-width: 480px) {
+			    header{
+			    	padding:20px;
+			    }
+			    #unfloat-1,#unfloat-2{
+			    	float:none;
+			    	margin-bottom:1em;
+			    }
+			    textarea{
+					font-size:.9em !important;
+					resize:none;
+					height:6em;
+					width:100%;
+
+				}
+				#gallery-link{
+					width: 100%;
+				}
+			}			
+			
+			.booking-table {
+			    font-size: 1.1em;
+			   font-family: Calibri, Helvetica, sans-serif;
+			    table-layout: fixed;
+			    border:0px solid;
+			    border-collapse: collapse;	    
+			  
+			}
+			.booking-table td.td-input {
+				text-align: left;
+			    border: 1px solid gray;
+			    background-color: white;
+			    width: 80%;
+			    padding: 5px;
+			    font-family: Calibri, Helvetica, sans-serif;
+			    vertical-align: middle;
+			}
+			.booking-table td.td-header {
+				text-align: left;
+			    border: 1px solid gray;
+			    width: 160px;
+			    padding: 5px;
+			    font-family: Calibri, Helvetica, sans-serif;
+			    vertical-align: top;
+			}
+
+			.booking-table td.book-ref {
+				font-weight: bold;		
+			}
+
+			td.cellnoborder{		
+				border-left: 0px solid white;
+				border-right: 0px solid white;		
+				height:20px;
+			}
+
+			.table-for-view{
+				width: 100%;
+			}
+			.table-for-email{
+				max-width: 500px;
+			}
+			
+			#msg-check,#status-check{
+				color:black;
+				text-align:center;
+				width:100%;
+				display:inline-block;
+				min-height: 1.1em;		
+			}
+
+			#fixed-top{
+				max-width: 500px;
+			    margin: 5px auto;
+				position:fixed;
+				left: 50%;
+				transform: translateX(-50%);
+				top:5px;
+				padding:5px;
+				-webkit-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+				-moz-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+				box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+				z-index:1000;
+			}
+
+			#fixed-bottom{
+				max-width: 500px;
+			    margin: 5px auto;
+				position:fixed;
+				left: 50%;
+				transform: translateX(-50%);
+				bottom:5px;
+				padding:5px;
+				-webkit-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+				-moz-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+				box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+				background-color: #a8eb81;
+				z-index: 1001;
+			}
+
+			.hid-div-{
+				display:none;
+			}
+
+			.floated{
+				float:left;
+				margin-right: 10px;
+			}
+
+			.clear{
+			    color: #008CBA;    	
+			}
+
+			.clear:hover{
+			   color: #4CAF50;
+			}
+
+			.page{
+				padding: 0px 20px;		
+			}
+
+			#loader {
+			  position: fixed;
+			  left: 50%;
+			  top: 50%;
+			  z-index: 1;
+			  width: 120px;
+			  height: 120px;
+			  margin: -60px 0 0 -60px;
+			  border: 16px solid #f3f3f3;
+			  border-radius: 50%;
+			  border-top: 16px solid #3498db;
+			 
+			  -webkit-animation: spin 2s linear infinite;
+			  animation: spin 2s linear infinite;
+			}
+
+			@-webkit-keyframes spin {
+			  0% { -webkit-transform: rotate(0deg); }
+			  100% { -webkit-transform: rotate(360deg); }
+			}
+
+			@keyframes spin {
+			  0% { transform: rotate(0deg); }
+			  100% { transform: rotate(360deg); }
+			}
+
+			/* Add animation to "page content" */
+			.animate-bottom {
+			  position: relative;
+			  -webkit-animation-name: animatebottom;
+			  -webkit-animation-duration: 1s;
+			  animation-name: animatebottom;
+			  animation-duration: 1s
+			}
+
+			@-webkit-keyframes animatebottom {
+			  from { opacity:0 } 
+			  to {  opacity:1 }
+			}
+
+			@keyframes animatebottom { 
+			  from{ opacity:0 } 
+			  to{ opacity:1 }
+			}
+
+			.accordion {
+			    background-color: darkgray;
+			    color: #444;
+			    cursor: pointer;
+			    padding: 10px;
+			    width: 100%;
+			    border: none;
+			    text-align: left;
+			    outline: none;
+			    font-size: 15px;
+			    transition: 0.4s;
+			    margin-bottom: 2px;
+			    position:relative;
+			}
+
+			.active {
+			    background-color: #008CBA; 
+			}
+
+			.panel {			    
+			    overflow: hidden;
+			    max-height:600px;
+				height: auto;
+			    transition: max-height 0.4s ease-out;
+			}
+
+			.collapse{
+				max-height: 0;
+			}
+
+			.right-child{
+			  top: 50%;
+			  transform: translateY(-50%);			  
+			  width:100px; 
+			  right:0; 
+			  bottom: 0;			
+			  position:absolute;
+			}
