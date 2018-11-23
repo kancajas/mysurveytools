@@ -1,8 +1,14 @@
-/*var app = angular.module('bauxiteApp', []);
-app.controller('itemCtl', function($scope, $http) {
-    $http.get("customers.php")
-    .then(function (response) {$scope.names = response.data.records;});
-});*/
+var myApp = angular.module('myApp', []);
+
+myApp.controller('myCtrl', function($scope, $http, $log) {
+    $log.info("test");
+    //$http.get("customers.php")
+    //.then(function (response) {$scope.names = response.data.records;});
+});
+
+
+
+
 
 
 function handleAccordion(e,id) {
