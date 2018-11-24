@@ -13,7 +13,8 @@ Date: 20 October 2018
 	<!-- W3 CSS because BOOTSTRAP is overrated! -->
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<title>RoRo Measurement and Lashing Survey Field Report</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular-resource.js"></script>
 	<!-- <link rel="stylesheet" href="css/styles.css"> -->
 	<!-- Fairly short code so adding all styles and scripts in this single file as well.. Sue me!-->
 	<style>
@@ -82,7 +83,7 @@ Date: 20 October 2018
 <body>
 	<div class=body-wrap>
 		<!-- Navbar (sit on top) -->
-		<div class="w3-top">
+		<header class="w3-top">
 			<div class="w3-bar w3-dark-grey w3-wide w3-card">
 				<a href="." class="w3-bar-item w3-button"><b>RoRo</b> Survey</a>
 				<div class="w3-right">
@@ -98,19 +99,23 @@ Date: 20 October 2018
 		   		    </div>
 		   			-->
 			</div>
-		</div>
+		</header>
 		<div ng-app="myApp" ng-controller="myCtrl" class="w3-content w3-display-container w3-light-grey w3-padding-32">
 			<div class="w3-container w3-padding-16">
 				<form id="report-details">
 					<div class="w3-section">
-						<input class="w3-input w3-section w3-border" name="job-number" id="job-number" type="text" placeholder="Job Number">
-						<button class="w3-button w3-black w3-card w3-padding-small" id="new-job" onclick="newJob();" type="button">New
+						<input ng-model="key" class="w3-input w3-section w3-border" name="job-number" id="job-number" type="text" placeholder="Job Number" list="job-list" autofocus> 
+						<datalist id="job-list">
+							<option ng-repeat="x1 in names" value="{{jobList.drname}}">
+							<option value="">
+						</datalist>
+						<button ng-show="!jobLoaded" ng-click="newJob()" class="w3-button w3-black w3-card w3-padding-small" id="new-job" type="button">New
 							Job</button>
-						<button class="w3-button w3-black w3-card w3-padding-small" id="save-job" onclick="saveJob();" type="button">Save
+						<button ng-show="jobLoaded" ng-click="saveJob()" class="w3-button w3-black w3-card w3-padding-small" id="save-job" type="button">Save
 							Job</button>
-						<button class="w3-button w3-black w3-card w3-padding-small" id="load-job" onclick="loadJob();" type="button">Load
+						<button ng-show="!jobLoaded" ng-click="loadJob(key)" class="w3-button w3-black w3-card w3-padding-small" id="load-job" type="button">Load
 							Job</button>
-						<button class="w3-button w3-black w3-card w3-padding-small" id="reset-form" onclick="resetBoard();" type="button">Close
+						<button ng-show="jobLoaded" ng-click="closeJob()" class="w3-button w3-black w3-card w3-padding-small" id="reset-form" type="button">Close
 							Job</button>
 					</div>
 

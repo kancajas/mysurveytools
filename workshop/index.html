@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<!--
+Description: RORO Measurement and lashing survey field application.
+Author: Keith Ancajas
+Email: kancajas@outlook.com
+Date: 20 October 2018
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,  user-scalable=yes" />
+        <title>RoRos Measurement and Lashing Survey Field Report</title>
+        <!-- Fairly short code so adding all styles and scripts in this single file as well.. Sue me!-->
+        <style>
+
+			/* http://meyerweb.com/eric/tools/css/reset/ 
+			   v2.0 | 20110126
+			   License: none (public domain)
+			*/
+
+			html, body, div, span, applet, object, iframe,
+			h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+			a, abbr, acronym, address, big, cite, code,
+			del, dfn, em, img, ins, kbd, q, s, samp,
+			small, strike, strong, sub, sup, tt, var,
+			b, u, i, center,
+			dl, dt, dd, ol, ul, li,
+			fieldset, form, label, legend,
+			table, caption, tbody, tfoot, thead, tr, th, td,
+			article, aside, canvas, details, embed, 
+			figure, figcaption, footer, header, hgroup, 
+			menu, nav, output, ruby, section, summary,
+			time, mark, audio, video {
+				margin: 0;
+				padding: 0;
+				border: 0;
+				font-size: 100%;
+				font: inherit;
+				vertical-align: baseline;
+			}
+			/* HTML5 display-role reset for older browsers */
+			article, aside, details, figcaption, figure, 
+			footer, header, hgroup, menu, nav, section {
+				display: block;
+			}
+			body {
+				line-height: 1;
+				background-color: #fcfaf8;
+			}
+			ol, ul {
+				list-style: none;
+			}
+			blockquote, q {
+				quotes: none;
+			}
+			blockquote:before, blockquote:after,
+			q:before, q:after {
+				content: "";
+				content: none;
+			}
+			table {
+				border-collapse: collapse;
+				border-spacing: 0;
+			}
+			/*Reset*/
+
+		
+            * {
+			    -moz-box-sizing: border-box;
+			    -webkit-box-sizing: border-box;
+			    box-sizing: border-box;
+			}
+			html,body {
+			    font-family: Calibri, Helvetica, sans-serif;
+			    font-size: 100%;
+			    overscroll-behavior-y: contain;
+			}
+			.body,
+			.body-wrap {
+				position: absolute;
+				top: 0px;
+				width: 100%;
+				height: 100%;
+			 	margin: 0;
+			 	overflow-y: hidden;
+			}
+			.body {
+			  	z-index: 1;
+			}
+			.body-wrap {
+			  	overflow-y: scroll;
+			  	z-index: 2;
+			}
+			.wrapper {
+			    border: 1px solid gray;
+				-webkit-box-shadow: 2px 2px 2px 0px rgba(199,199,199,1);
+				-moz-box-shadow: 2px 2px 2px 0px rgba(199,199,199,1);
+				box-shadow: 2px 2px 2px 0px rgba(199,199,199,1);
+			    max-width: 960px;
+			    margin: 0 auto;
+			    padding: 0px 0px 20px 0px;
+			    position:relative;
+			}
+			header {
+				background-color:  green;
+				width:100%;
+			    text-align: center;
+			    margin-bottom: 50px;
+			    background-image: url("/roro/images/shiplink.jpg");
+			    background-repeat: no-repeat;
+			    background-color: #cccccc;
+			    background-size: cover;
+			    padding:40px;
+			   /* -webkit-box-shadow: 0px 3px 7px 0px rgba(0,0,0,0.75);
+			    -moz-box-shadow: 0px 3px 7px 0px rgba(0,0,0,0.75);
+			    box-shadow: 0px 3px 7px 0px rgba(0,0,0,0.75);*/
+			}
+			input, textarea, select  {
+			    font-size: 1.1em;	
+			    border:1px solid  lightgray;	
+			    font-family: Calibri, Helvetica, sans-serif;	      
+			}
+
+			textarea{				
+				resize:none;
+				height:6em;
+				width:100%;
+			}
+
+			input[type=button]  {
+				background-color: #008CBA;
+				padding:4px 6px;
+			    border: none;
+			    color: white;
+			    font-size: 1.0em;
+			    border-radius: 1px;  
+			    -webkit-box-shadow: 2px 2px 2px 0px rgba(199,199,199,1);
+			    -moz-box-shadow: 2px 2px 2px 0px rgba(199,199,199,1);
+			    box-shadow: 2px 2px 2px 0px rgba(199,199,199,1);
+			   
+			}
+
+			input[type="button"]:disabled {
+    			background: #dddddd;
+			}
+
+			input[type=text]  {
+			    text-transform: uppercase;
+			    padding-left:2px;
+			}
+
+			#survey-loc{
+				width:300px;
+			}
+
+			#gallery-link{
+				width: 450px;
+			}
+
+			
+			@media only screen and (max-width: 480px) {
+			    header{
+			    	padding:20px;
+			    }
+			    #unfloat-1,#unfloat-2{
+			    	float:none;
+			    	margin-bottom:1em;
+			    }
+			    textarea{
+					font-size:.9em !important;
+					resize:none;
+					height:6em;
+					width:100%;
+
+				}
+				#gallery-link{
+					width: 100%;
+				}
+			}			
+			
+			.booking-table {
+			    font-size: 1.1em;
+			   font-family: Calibri, Helvetica, sans-serif;
+			    table-layout: fixed;
+			    border:0px solid;
+			    border-collapse: collapse;	    
+			  
+			}
+			.booking-table td.td-input {
+				text-align: left;
+			    border: 1px solid gray;
+			    background-color: white;
+			    width: 80%;
+			    padding: 5px;
+			    font-family: Calibri, Helvetica, sans-serif;
+			    vertical-align: middle;
+			}
+			.booking-table td.td-header {
+				text-align: left;
+			    border: 1px solid gray;
+			    width: 160px;
+			    padding: 5px;
+			    font-family: Calibri, Helvetica, sans-serif;
+			    vertical-align: top;
+			}
+
+			.booking-table td.book-ref {
+				font-weight: bold;		
+			}
+
+			td.cellnoborder{		
+				border-left: 0px solid white;
+				border-right: 0px solid white;		
+				height:20px;
+			}
+
+			.table-for-view{
+				width: 100%;
+			}
+			.table-for-email{
+				max-width: 500px;
+			}
+			
+			#msg-check,#status-check{
+				color:black;
+				text-align:center;
+				width:100%;
+				display:inline-block;
+				min-height: 1.1em;		
+			}
+
+			#fixed-top{
+				max-width: 500px;
+			    margin: 5px auto;
+				position:fixed;
+				left: 50%;
+				transform: translateX(-50%);
+				top:5px;
+				padding:5px;
+				-webkit-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+				-moz-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+				box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+				z-index:1000;
+			}
+
+			#fixed-bottom{
+				max-width: 500px;
+			    margin: 5px auto;
+				position:fixed;
+				left: 50%;
+				transform: translateX(-50%);
+				bottom:5px;
+				padding:5px;
+				-webkit-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+				-moz-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+				box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.75);
+				background-color: #a8eb81;
+				z-index: 1001;
+			}
+
+			.hid-div-{
+				display:none;
+			}
+
+			.floated{
+				float:left;
+				margin-right: 10px;
+			}
+
+			.clear{
+			    color: #008CBA;    	
+			}
+
+			.clear:hover{
+			   color: #4CAF50;
+			}
+
+			.page{
+				padding: 0px 20px;		
+			}
+
+			#loader {
+			  position: fixed;
+			  left: 50%;
+			  top: 50%;
+			  z-index: 1;
+			  width: 120px;
+			  height: 120px;
+			  margin: -60px 0 0 -60px;
+			  border: 16px solid #f3f3f3;
+			  border-radius: 50%;
+			  border-top: 16px solid #3498db;
+			 
+			  -webkit-animation: spin 2s linear infinite;
+			  animation: spin 2s linear infinite;
+			}
+
+			@-webkit-keyframes spin {
+			  0% { -webkit-transform: rotate(0deg); }
+			  100% { -webkit-transform: rotate(360deg); }
+			}
+
+			@keyframes spin {
+			  0% { transform: rotate(0deg); }
+			  100% { transform: rotate(360deg); }
+			}
+
+			/* Add animation to "page content" */
+			.animate-bottom {
+			  position: relative;
+			  -webkit-animation-name: animatebottom;
+			  -webkit-animation-duration: 1s;
+			  animation-name: animatebottom;
+			  animation-duration: 1s
+			}
+
+			@-webkit-keyframes animatebottom {
+			  from { opacity:0 } 
+			  to {  opacity:1 }
+			}
+
+			@keyframes animatebottom { 
+			  from{ opacity:0 } 
+			  to{ opacity:1 }
+			}
+
+			.accordion {
+			    background-color: darkgray;
+			    color: #444;
+			    cursor: pointer;
+			    padding: 10px;
+			    width: 100%;
+			    border: none;
+			    text-align: left;
+			    outline: none;
+			    font-size: 15px;
+			    transition: 0.4s;
+			    margin-bottom: 2px;
+			    position:relative;
+			}
+
+			.active {
+			    background-color: #008CBA; 
+			}
+
+			.panel {			    
+			    overflow: hidden;
+			    max-height:600px;
+				height: auto;
+			    transition: max-height 0.4s ease-out;
+			}
+
+			.collapse{
+				max-height: 0;
+			}
+
+			.right-child{
+			  top: 50%;
+			  transform: translateY(-50%);			  
+			  width:100px; 
+			  right:0; 
+			  bottom: 0;			
+			  position:absolute;
+			}
+
+		</style>
+    </head>
+    <body class="body">
+        <div class=body-wrap>
+	        <div class="wrapper animate-bottom">
+	            <header>
+	                <h3 id="header-title">RoRo Pre-Shipment Condition, Measurement, and Lashing Survey Field Inspection</h3>
+	                <div id="fixed-top" class="hid-div-"><span id="msg-check"> </span></div>
+	                <div id="fixed-bottom" class="hid-div-" onclick="saveJob();"><span id="status-check"> </span></div>
+	                <div id="loader" class="hid-div-"></div>                
+	            </header>
+	            <div class="page">
+		            <form id="report-details">     
+		                <label for="job-number">Job Number</label>           
+		                <br>
+		                <input name="job-number" id="job-number" type="text" size="10" value="" list="job-list" autofocus> 
+		                <datalist id="job-list">
+							<option value="">
+						</datalist>
+		                <input id="new-job" onclick="newJob();" type="button" value="New Job">
+		                <input id="save-job" onclick="saveJob();" type="button" value="Save Job">
+		                <input id="load-job" onclick="loadJob(false);" type="button" value="Load Job">    
+		         		<input id="reset-form" onclick="resetBoard();" type="button" value="Close Job"> 
+		                <br> <br>
+		                <div id="unfloat-1" class="floated">
+			                <label for="party-time">Date and Time</label>
+			                <br>
+			                <input style="width:220px;" type="datetime-local" id="party-time" name="party-time" value="2018-10-01T19:30"  min="2016-01-07T00:00" max="2019-12-14T00:00" step="300">
+		                </div>
+		                 <div>
+			                <label for="survey-loc">Place of Inspection</label>
+			                <br>
+							<input type="text" id="survey-loc" name="survey-loc" list="loc-list">
+							<datalist id="loc-list">
+							    <option value="">
+							  	<option value="H Berth, Victoria Quay, Fremantle">
+							  	<option value="Berth 11, North Quay, Fremantle">
+							  	<option value="Berth 12, North Quay, Fremantle">
+							  	<option value="Somewhere in the East Coast">
+							</datalist>
+
+
+						
+		                </div>
+		                <br>  
+		                <div id="unfloat-2" class="floated">   
+			                <label for="vessel-name">Vessel</label>
+			                <br>
+			                <input style="width:220px;" name="vessel-name" id="vessel-name" type="text" size="20" value=""> 
+						</div>
+						<div>   
+			                <label for="voy-num">Voyage No</label>
+			                <br>
+			                <input name="voy-num" id="voy-num" type="text" size="10" value=""> 
+						</div>
+		                <br>    
+		                <label for="para-one">Comment - <span class="clear" onclick="document.getElementById('para-one').value='';">Clear Box</span></label>
+		                <br>
+
+		                <textarea name="para-one" id="para-one" rows="5" cols="58"></textarea>
+		               	<br>
+		               	<br>
+		                <div>
+		                	<input style="vertical-align: middle;" type="checkbox" name="colla" value="collapse" 
+		                	onchange="handleCollapse(this)">
+		                	<span onclick="handleCollapse2(this)" style="cursor:default; vertical-align: middle"> Collapse Completed</span>
+		                </div>
+						<!--<input type="radio" name="colla" value="collapse" onchange="handleRadio(this)"> Collapse
+						<input type="radio" name="colla" value="uncollapse" onchange="handleRadio(this)"> Uncollapse-->
+						<br><br>
+		            </form>
+	            </div>
+	       
+	            <div class="page">	
+		            <div id="copy-text">
+		            	<div id="hid-div-one" class="hid-div-">
+			            	<p>Dear All<br></p>
+							<p><br>As per request, we inspected the below-mentioned cargo units for the above subject vessel at <span id=survey-location></span>, on <span id="survey-date"></span> hrs.<br></p>
+							<p style="white-space: pre;" id="para-one-copy"></p>
+
+							<p><br>The preliminary pre-load inspection report is as follows.<br><br></p>
+						</div>
+						<div id="record-col">
+			                <!--<table  class="booking-table table-for-view">
+			                    <tbody>
+			                        <tr>
+			                            <td class="td-header book-ref">Booking Reference</td>
+			                            <td class="td-input book-ref" contenteditable="true"></td>
+			                        </tr>
+			                        <tr>
+			                            <td class="td-header">Unit</td>
+			                            <td class="td-input" contenteditable="true"></td>
+			                        </tr>
+			                        <tr>
+			                            <td class="td-header">Condition</td>
+			                            <td class="td-input" contenteditable="true"></td>
+			                        </tr>
+			                        <tr>
+			                            <td class="td-header">Length (m)</td>
+			                            <td class="td-input td-length num-input" contenteditable="true"></td>
+			                        </tr>
+			                        <tr>
+			                            <td class="td-header">Width (m)</td>
+			                            <td class="td-input td-width num-input" contenteditable="true"></td>
+			                        </tr>
+			                        <tr>
+			                            <td class="td-header">Height (m)</td>
+			                            <td class="td-input td-height num-input" contenteditable="true" ></td>
+			                        </tr>
+			                        <tr>
+			                            <td class="td-header">Cubic Meters (cu m)</td>
+			                            <td class="td-input td-cum num-input" contenteditable="true"></td>
+			                        </tr>
+			                        <tr>
+			                            <td class="td-header">Weight (mt)</td>
+			                            <td class="td-input num-input" contenteditable="true"></td>
+			                        </tr>
+			                        <tr>
+			                            <td class="td-header">Exceptions</td>
+			                            <td class="td-input" contenteditable="true"></td>
+			                        </tr>
+			                        <tr>
+			                            <td class="td-header">Further Comments</td>
+			                            <td class="td-input" contenteditable="true"></td>
+			                        </tr>
+			                    </tbody>
+			                </table>-->
+		            	</div>
+		         		<div id="hid-div-four" class="hid-div-">		
+			                <p style="white-space: pre;" id="para-four-copy"></p>		       
+						</div>
+						<div id="hid-div-two" class="hid-div-">	
+
+			                <p><br>Photographs taken during the survey can be viewed and downloaded using the link below<br><br></p>
+							<a id="image-link" href="https://www.amspecllc.com/">Image Gallery</a>	    
+							<br>            
+						</div>
+						<div id="hid-div-three" class="hid-div-">	
+			            
+							<p><br>Please do not hesitate to contact us if you have any queries or concerns.<br></p>
+							<p><br>Thank you.<br></p>
+						</div>
+		            </div>
+
+		            <br>
+		            <!-- copy-text -->  
+		            <input id="add-item" onclick="addNewItem();" type="button" value="Add Item">
+		            <input id="remove-item" onclick="clearBoard(false)" type="button" value="Remove Item">
+		            <input id="remove-all" onclick="clearBoard(true);" type="button" value="Remove All">
+
+		            <br> <br>     
+		            <label for="para-two">Additional Comment - <span class="clear" onclick="document.getElementById('para-two').value='';">Clear Box</span></label>
+		            <br>
+		            <textarea name="para-two" id="para-two" rows="5" cols="58"></textarea>
+		           <!-- <br><input onclick="document.getElementById("para-two").value="";" type="button" value="X"> -->
+		            <br><br>
+	                <label for="gallery-link">Gallery Link - <span class="clear" onclick="document.getElementById('gallery-link').value='';">Clear Box</span></label>
+	                <br>
+	                <input name="gallery-link" id="gallery-link" type="text" size="45" value="">
+	                <!--<input onclick="document.getElementById("gallery-link").value="";" type="button" value="X">-->
+	               	<br> <br> <br>    
+		            <input id="create-report" onclick="selectElementContent(document.getElementById('copy-text'),false );" type="button" value="Send To Email">
+		            <input id="copy-clip" onclick="selectElementContent(document.getElementById('copy-text'),true );" type="button" value="Send To Clipboard">
+	           	</div>
+	        </div> <!--wrapper-->		
+        </div><!--body-wrap-->
+		<script>
+			const rootLink = "https://api.jsonbin.io/b/";
+			const masterLink = "5bdd1089baccb064c0c0e0cb"; //1fw7ck";
+			const colId = "5bdd0f66716f9364f8d1278b";
+			const rowId = "$2a$10$7AroDmsNI57xWxJ1o.1fUeb0vWv.D7.ySLUXtDQPrEcVpQ3hfRgc6";
+			var elementDesc = ["Booking Reference", "Unit", "Condition", "Length (m)", "Width (m)", 
+							   "Height (m)", "Cu Meters (cbm)", "Weight (mt)", "Exceptions", "Comments"];
+			var jsonDesc = ["Booking", "Unit", "Condition", "Length", "Width", "Height", 
+							"Cubic Meters", "Weight", "Exceptions", "Comments","Completed"];
+			var jobArray = undefined;
+			var someChanges = false;
+			var tableArray = [];
+			// Store a copy of the fetch function
+			var _oldFetch = fetch;
+			// Create our new version of the fetch function
+			window.fetch = function() {
+			    // Create hooks
+			    var fetchStart = new Event("fetchStart", {
+			        "view": document,
+			        "bubbles": true,
+			        "cancelable": false
+			    });
+			    var fetchEnd = new Event("fetchEnd", {
+			        "view": document,
+			        "bubbles": true,
+			        "cancelable": false
+			    });
+			    // Pass the supplied arguments to the real fetch function
+			    var fetchCall = _oldFetch.apply(this, arguments);
+			    // Trigger the fetchStart event
+			    document.dispatchEvent(fetchStart);
+			    fetchCall.then(function() {
+			        // Trigger the fetchEnd event
+			        document.dispatchEvent(fetchEnd);
+			    }).catch(function() {
+			        // Trigger the fetchEnd event
+			        document.dispatchEvent(fetchEnd);
+			    });
+			    return fetchCall;
+			};
+			document.addEventListener("fetchStart", function() {
+				document.getElementById("save-job").disabled=true;
+				document.getElementById("load-job").disabled=true;
+				document.getElementById("new-job").disabled=true;
+				
+				
+			    loader.classList.remove("hid-div-");
+			});
+			document.addEventListener("fetchEnd", function() {
+				document.getElementById("save-job").disabled=false;
+				document.getElementById("load-job").disabled=false;
+				document.getElementById("new-job").disabled=false;
+			    loader.classList.add("hid-div-");
+			});
+			//set default date and time to today
+			setDateTime();
+			//load job masterlist to array
+			loadJob(true);
+			setupTable();
+
+			function setupTable() {
+			    addNewItem();
+			    var table = document.getElementsByClassName("booking-table");
+			    for (var p = 0; p < table.length; ++p) {
+			        for (var i = 0, row; row = table[p].rows[i] - 1; i++) {
+			            row.cells[0].innerHTML = elementDesc[i];
+			        }
+			    }
+			}
+			//disable everything except job number input and save/load button
+			noEdit(1);
+			//function to disable or enable related group of elements based on current activity
+			function noEdit(status) {
+			    // 1 - at reset, 2 - at new
+			    if (status == 1) {
+			        document.getElementById("new-job").classList.remove("hid-div-");
+			        document.getElementById("load-job").classList.remove("hid-div-");
+			        document.getElementById("save-job").classList.add("hid-div-");
+			        document.getElementById("reset-form").classList.add("hid-div-");
+			        //TODO: refactor using loops
+			        document.getElementById("job-number").disabled = false;
+			        document.getElementById("party-time").disabled = true;
+			        document.getElementById("survey-loc").disabled = true;
+			        document.getElementById("voy-num").disabled = true;
+			        document.getElementById("vessel-name").disabled = true;
+			        document.getElementById("gallery-link").disabled = true;
+			        document.getElementById("add-item").disabled = true;
+			        document.getElementById("remove-item").disabled = true;
+			        document.getElementById("remove-all").disabled = true;
+			        document.getElementById("create-report").disabled = true;
+			        document.getElementById("copy-clip").disabled = true;
+			        document.getElementById("para-one").disabled = true;
+			        document.getElementById("para-two").disabled = true;
+			        var editable_elements = document.querySelectorAll("[contenteditable=true]");
+			        for (var i = 0; i < editable_elements.length; i++) {
+			            editable_elements[i].setAttribute("contenteditable", false);
+			        }
+			    } else if (status == 2) {
+			        document.getElementById("new-job").classList.add("hid-div-");
+			        document.getElementById("load-job").classList.add("hid-div-");
+			        document.getElementById("save-job").classList.remove("hid-div-");
+			        document.getElementById("reset-form").classList.remove("hid-div-");
+			        //TODO: refactor using loops
+			        document.getElementById("job-number").disabled = true;
+			        document.getElementById("party-time").disabled = false;
+			        document.getElementById("survey-loc").disabled = false
+			        document.getElementById("voy-num").disabled = false;
+			        document.getElementById("vessel-name").disabled = false;
+			        document.getElementById("gallery-link").disabled = false;
+			        document.getElementById("add-item").disabled = false;
+			        document.getElementById("remove-item").disabled = false;
+			        document.getElementById("remove-all").disabled = false;
+			        document.getElementById("create-report").disabled = false;
+			        document.getElementById("copy-clip").disabled = false;
+			        document.getElementById("para-one").disabled = false;
+			        document.getElementById("para-two").disabled = false;
+			        var editable_elements = document.querySelectorAll("[contenteditable=false]");
+			        for (var i = 0; i < editable_elements.length; i++) {
+			            editable_elements[i].setAttribute("contenteditable", true);
+			        }
+			    }
+			}
+			//check if job number is valid, check if job no is in masterlist, enable inputs
+			function checkJobNum(str) {
+			    var firstChar = str.slice(0, 1);
+			    var trailingChars = str.slice(1);
+			    var pat = /[^0-9]/g;
+			    //check if job number conforms to patter, exit function if it doesn't
+			    if (str === "") {
+			        return false;
+			    }
+			    if (firstChar != "J") {
+			        return false;
+			    }
+			    if (trailingChars.match(pat)) {
+			        return false;
+			    }
+			    return true;
+			}
+
+			function newJob() {
+			    var jobNo;
+			    //assign job number to variable and clean up
+			    jobNo = document.getElementById("job-number").value;
+			    jobNo = jobNo.trim()
+			    jobNo = jobNo.toUpperCase();
+			    if (!checkJobNum(jobNo)) {
+			        msgTxt(2, "Job number must start with 'J' followed by numbers!");
+			        return;
+			    }
+			    //fetch the job list and check if job number already exist           		
+			    fetch(rootLink + masterLink + "/latest", {
+			            method: "GET",
+			            headers: {
+			                "Content-Type": "application/json; charset=utf-8",
+			                "secret-key": rowId
+			            }
+			        }).then(function(response) {
+			            if (response.ok) {
+			                return response.json();
+			            }
+			            throw new Error("Network server is ignoring us.. How sad.. Try again later!");
+			        })
+			        //check if job number is current masterlist, if not then enable all inputs for editing
+			        .then(function(myJson) {
+			            var jobLink = undefined;
+			            jobArray = myJson;
+
+
+			            //if job exist then go ahead and push the changes
+			            if (jobNo in jobArray) {
+			                msgTxt(2, "Cannot create job! Job number already exist on database! Try loading it instead!");
+			            } else {
+			                noEdit(2);
+			                msgTxt(1, "A new job was created!", "Note: Changes are not save to database until you pressed save!");
+			                statusTxt("New job created! Press 'Save Job' to commit!");
+			            }
+			        }).catch(function(error) {
+			            console.log("There was an error accessing database: ", error.message);
+			            alert("Cannot connect to database: " + error.message);
+			        });
+			}
+
+			function handleCollapse2(el){
+				
+				var colCheck = el.previousElementSibling;
+				console.log("fd");
+				if(colCheck.checked == false) {
+					var list = document.getElementsByClassName("accordion");
+				 	for (li of list){
+				 		var panel = li.nextElementSibling;
+				 		var check = li.getElementsByClassName("check-complete")[0].checked;
+				 		if (check){
+					 		li.classList.remove("active");
+					 		panel.classList.add("collapse");
+				 		}
+				 	}
+				      colCheck.checked = true; 
+				}
+				else {
+				    if(colCheck.checked == true) {
+				    	var list = document.getElementsByClassName("accordion");
+				 	for (li of list){
+				 		
+				 		var panel = li.nextElementSibling;
+				 		var check = li.getElementsByClassName("check-complete")[0].checked;
+				 		if (check){
+					 		li.classList.add("active");
+					 		panel.classList.remove("collapse");
+				 		}
+					}
+				        colCheck.checked = false; 
+				    }   
+				}
+			}
+
+			function handleCollapse(el){
+				//statusTxt("Unsaved changes found!");
+				//console.log("fd");
+				if (el.checked){
+					var list = document.getElementsByClassName("accordion");
+				 	for (li of list){
+				 		var panel = li.nextElementSibling;
+				 		var check = li.getElementsByClassName("check-complete")[0].checked;
+				 		if (check){
+					 		li.classList.remove("active");
+					 		panel.classList.add("collapse");
+				 		}
+				 	}
+				}else{
+					var list = document.getElementsByClassName("accordion");
+				 	for (li of list){
+				 		
+				 		var panel = li.nextElementSibling;
+				 		var check = li.getElementsByClassName("check-complete")[0].checked;
+				 		if (check){
+					 		li.classList.add("active");
+					 		panel.classList.remove("collapse");
+				 		}
+					}
+				}
+			}
+
+			function handleRadio(el){
+				statusTxt("Unsaved changes found!");
+				 if (el.value =="uncollapse"){
+				 	var list = document.getElementsByClassName("accordion");
+				 	for (li of list){
+				 		
+				 		var panel = li.nextElementSibling;
+				 		var check = li.getElementsByClassName("check-complete")[0].checked;
+				 		if (check){
+					 		li.classList.add("active");
+					 		panel.classList.remove("collapse");
+				 		}
+				 	}
+				 }else{
+				 	var list = document.getElementsByClassName("accordion");
+				 	for (li of list){
+				 		var panel = li.nextElementSibling;
+				 		var check = li.getElementsByClassName("check-complete")[0].checked;
+				 		if (check){
+					 		li.classList.remove("active");
+					 		panel.classList.add("collapse");
+				 		}
+				 	}
+				 }
+			}
+
+			document.getElementById("record-col").addEventListener("focusout", function(e) {
+			    //statusTxt("Unsaved Changes");
+			    if (e.target && (e.target.matches("td.num-input"))) {
+			        //var table = document.getElementById("booking-table");
+			        var el = e.target;
+			        var val = el.innerHTML;
+			        val = removeCommas(val);
+			        var isNum = parseFloat(val);
+			        if (!isNaN(isNum)) {
+			            val = addCommas(val);
+			            el.innerHTML = val;
+			        }
+			    }
+			});
+
+
+
+			document.getElementById("record-col").addEventListener("click",function(e){ 
+
+
+				if (e.target && (e.target.matches("button.accordion") )) {
+					var el = e.target;
+					el.classList.toggle("active");
+					var panel = el.nextElementSibling;
+					panel.classList.toggle("collapse");
+			
+
+				}else if (e.target && (e.target.matches("span.item-info") )) {
+					var el = e.target.parentElement;
+					el.classList.toggle("active");
+					var panel = el.nextElementSibling;
+					panel.classList.toggle("collapse");
+			
+
+				}
+
+				else if(e.target && (e.target.matches("div.right-child"))) {
+			    	var el2 = e.target;
+			    	var check = el2.firstChild;
+
+			    	if(check.checked == false) {
+			    	      check.checked = true; 
+			    	}
+			    	else {
+			    	    if(check.checked == true) {
+			    	        check.checked = false; 
+			    	    }   
+			    	}
+
+			    }
+
+			
+
+			});
+
+			// auto calculate cubic meters on keyup event
+			document.getElementById("record-col").addEventListener("keyup", function(e) {
+			    statusTxt("Unsaved changes found!");
+			    if (e.target && (e.target.matches("td.td-length") || e.target.matches("td.td-height") || e.target.matches("td.td-width") || e.target.matches("td.td-cum"))) {
+			        var table = (e.target.parentNode).parentNode; //document.getElementById("booking-table");
+			        var lenRow, heiRow, widRow, cumRow, a, b, c, d;
+			        var el = e.target;
+			        if (el.classList.contains("td-length")) {
+			            lenRow = el.parentElement.rowIndex;
+			            widRow = el.parentElement.rowIndex + 1;
+			            heiRow = el.parentElement.rowIndex + 2;
+			            cumRow = el.parentElement.rowIndex + 3;
+			        } else if (el.classList.contains("td-width")) {
+			            lenRow = el.parentElement.rowIndex - 1;
+			            widRow = el.parentElement.rowIndex;
+			            heiRow = el.parentElement.rowIndex + 1;
+			            cumRow = el.parentElement.rowIndex + 2;
+			        } else if (el.classList.contains("td-height")) {
+			            lenRow = el.parentElement.rowIndex - 2;
+			            widRow = el.parentElement.rowIndex - 1;
+			            heiRow = el.parentElement.rowIndex;
+			            cumRow = el.parentElement.rowIndex + 1;
+			        } else if (el.classList.contains("td-cum")) {
+			            lenRow = el.parentElement.rowIndex - 3;
+			            widRow = el.parentElement.rowIndex - 2;
+			            heiRow = el.parentElement.rowIndex - 1;
+			            cumRow = el.parentElement.rowIndex;
+			        }
+			        //console.log(table);
+			        a = removeCommas(table.rows[lenRow].cells[1].innerHTML);
+			        b = removeCommas(table.rows[widRow].cells[1].innerHTML);
+			        c = removeCommas(table.rows[heiRow].cells[1].innerHTML);
+			        a = parseFloat(a);
+			        b = parseFloat(b);
+			        c = parseFloat(c);
+			        if (isNaN(a) || isNaN(b) || isNaN(c)) {
+			            table.rows[cumRow].cells[1].innerHTML = "";
+			            return;
+			        } else {
+			            d = a * b * c;
+			            d= Math.round(d * 100) / 100;
+
+			            d = removeCommas(d.toString());
+			            var isNum = parseFloat(d);
+			            if (!isNaN(isNum)) {
+			                d = addCommas(d);
+			                
+			            }
+
+			            table.rows[cumRow].cells[1].innerHTML = d;
+			        }
+			    }
+			});
+			// displays text notification on top of window
+			function msgTxt() {
+			    //1 - info, 2 - critical
+			    var bgColor = "#FF0000";
+			    bgColor = (arguments[0] == 1) ? "#66ccff" : "#FF0000";
+			    document.getElementById("msg-check").innerHTML = arguments[1]
+			    var i = 2;
+			    while (i < arguments.length) {
+			        document.getElementById("msg-check").innerHTML = document.getElementById("msg-check").innerHTML + "<br>" + arguments[i];
+			        ++i;
+			    }
+			    document.getElementById("fixed-top").style.backgroundColor = bgColor;
+			    document.getElementById("fixed-top").classList.remove("hid-div-");
+			    setTimeout(function() {
+			        document.getElementById("msg-check").innerHTML = "";
+			        document.getElementById("fixed-top").classList.add("hid-div-");
+			    }, 5000);
+			}
+			// displays text notification on bottom of window
+			function statusTxt(msg) {
+			    if (msg != "") {
+			    	msg = msg + "<br>" + "CLICK HERE TO QUICK SAVE!";
+			        someChanges = true;
+			        document.getElementById("status-check").innerHTML = "RECORD CHANGED! CLICK HERE TO SAVE!";
+			        document.getElementById("fixed-bottom").classList.remove("hid-div-");
+			    } else {
+			        someChanges = false;
+			        document.getElementById("status-check").innerHTML = "";
+			        document.getElementById("fixed-bottom").classList.add("hid-div-");
+			    }
+			}
+			// clears all inputs and table items
+			function resetBoard() {
+			    if (someChanges) {
+			        var r = confirm("Unsaved changes will be lost!\nAre you sure?");
+			        if (r == false) {
+			            return;
+			        }
+			    }
+			    deleteItem(true, false);
+			    noEdit(true);
+			    document.getElementById("job-number").value = "";
+			    document.getElementById("survey-loc").value = "";
+			    document.getElementById("vessel-name").value = "";
+			    document.getElementById("voy-num").value = "";
+			    document.getElementById("gallery-link").value = "";
+			    document.getElementById("para-one").value = "";
+			    document.getElementById("para-two").value = "";
+			    setDateTime();
+			    statusTxt("");
+			}
+			// clears all table items only
+			function clearBoard(all) {
+			    if (all) {
+			        deleteItem(true, true);
+			    } else {
+			        deleteItem(false, true);
+			    }
+			    statusTxt("Unsaved changes found!");
+			}
+
+
+
+			function saveJob() {
+			    var recordCol = document.getElementsByClassName("table-group");
+			    //var len = table.rows.length;
+			    var arr = [];
+			    var jobNo;
+			    var dateTime;
+			    var vesselName;
+			    var surveyLoc;
+			    var voyNum;
+			    var galleryLink;
+			    var paraOne;
+			    var paraTwo;
+			    //Check if Job Input is empty and exit function
+			    if (document.getElementById("job-number").value === "") {
+			        //alert("Data Not Saved! Job Number Empty!");
+			        msgTxt(2, "Nothing to save!");
+			        return;
+			    } else {
+			        jobNo = document.getElementById("job-number").value;
+			    }
+			    dateTime = document.getElementById("party-time").value;
+			    vesselName = document.getElementById("vessel-name").value;
+			    surveyLoc = document.getElementById("survey-loc").value;
+			    voyNum = document.getElementById("voy-num").value;
+			    galleryLink = document.getElementById("gallery-link").value;
+			    paraOne = document.getElementById("para-one").value;
+			    paraTwo = document.getElementById("para-two").value;
+			    jobNo = jobNo.trim();
+			    jobNo = jobNo.toUpperCase();
+			    vesselName = vesselName.toUpperCase();
+
+			    var recLen = recordCol.length;
+			    //var recList = recordCol.getElementsByClassName("table-group");
+
+			    //Prepare the array to be uploaded
+			    var itemCnt = 0;
+			    var itemObj = {};
+			    for (var p = 0; p < recLen; ++p) {
+			        itemCnt = itemCnt + 1;
+			        itemObj = {};
+			        for (var ctr = 0; ctr < jsonDesc.length; ++ctr) {
+			        	if (ctr<jsonDesc.length-1){
+				        	var table = recordCol[p].children[1].firstChild;
+				        	console.log(table);
+				            itemObj[jsonDesc[ctr]] = table.rows[ctr].cells[1].innerHTML;
+			        	}else{
+				            itemObj[jsonDesc[ctr]] = recordCol[p].children[0].getElementsByClassName("check-complete")[0].checked;
+
+			        	}
+			        }
+			       // let pan = table[p].parentNode;
+			        //let but = table[p].previousElementSibling;
+
+
+			       // itemObj[jsonDesc[jsonDesc.length-1]] = table[p].parentNode;
+
+			        //alert(JSON.stringify(itemObj));
+			        arr.push(itemObj);
+			    }
+
+			    arr.unshift({
+			        "jobno": jobNo,
+			        "datetime": dateTime,
+			        "surveyloc": surveyLoc,
+			        "voynum": voyNum,
+			        "datetime": dateTime,
+			        "vessel": vesselName,
+			        "gallery": galleryLink,
+			        "record": itemCnt,
+			        "paraone": paraOne,
+			        "paratwo": paraTwo
+			    })
+			    //fetch the job list and check if this job already exist
+			    fetch(rootLink + masterLink + "/latest", {
+			        method: "GET",
+			        headers: {
+			            "Content-Type": "application/json",
+			            "secret-key": rowId
+			        }
+			    }).then(function(response) {
+			        if (response.ok) {
+			            return response.json();
+			        }
+			        throw new Error("Network server is ignoring us.. How sad.. Try again later!");
+			    }).then(function(myJson) {
+			        var jobLink = undefined;
+			        jobArray = myJson;
+			        if (jobNo in jobArray) {
+			            jobLink = rootLink + jobArray[jobNo];
+			            //jobLink = jobArray[jobNo];
+			            fetch(jobLink, {
+			                method: "PUT",
+			                body: JSON.stringify(arr),
+			                headers: {
+			                    "Content-Type": "application/json; charset=utf-8",
+			                    "secret-key": rowId
+			                }
+			            }).then(function(response) {
+			                if (response.ok) {
+			                    return response.json();
+			                }
+			                throw new Error("Network server is ignoring us.. How sad.. Try again later!");
+			            }).then(function(myJson) {
+			                console.log("Success:", JSON.stringify(myJson))
+			                //alert("Data Saved Successfully");
+			                msgTxt(1, "Data saved successfully!")
+			                statusTxt("");
+			            }).catch(function(error) {
+			                console.log("There was an error: ", error.message);
+			                alert("There was an error: " + error.message);
+			            });
+			        } else {
+			            console.log("Job does not exist!");
+			            var url = "https://api.jsonbin.io/b";
+			            //create new json record for new Job
+			            fetch(url, {
+			                method: "POST",
+			                body: JSON.stringify(arr),
+			                headers: {
+			                    "Content-Type": "application/json; charset=utf-8",
+			                    "secret-key": rowId,
+			                    "collection-id": colId,
+			                    "name": jobNo
+			                }
+			            }).then(function(response) {
+			                if (response.ok) {
+			                    return response.json();
+			                }
+			                throw new Error("Network server is ignoring us.. How sad.. Try again later!");
+			            }).then(function(myJson) {
+			                //everything went well if we reach this part so update masterlist
+			                console.log("Success:", JSON.stringify(myJson));
+			                jobArray[jobNo] = myJson.id; //myJson.uri;
+			                //alert("Data Saved Successfully");
+			                //jobArray = {};
+			                //jobArray = {"J00001":"test"};
+			                //push new job to masterlist
+			                fetch(rootLink + masterLink, {
+			                    method: "PUT",
+			                    body: JSON.stringify(jobArray),
+			                    headers: {
+			                        "Content-Type": "application/json; charset=utf-8",
+			                        "secret-key": rowId
+			                    }
+			                }).then(function(response) {
+			                    if (response.ok) {
+			                        return response.json();
+			                    }
+			                    throw new Error("Network server is ignoring us.. How sad.. Try again later!");
+			                }).then(function(myJson) {
+			                    console.log("Success:", JSON.stringify(myJson))
+			                    // alert("Masterlist Updated!");
+			                    msgTxt(1, "Data saved! Masterlist updated!")
+			                    statusTxt("");
+			                }).catch(function(error) {
+			                    console.log("There was an error: ", error.message);
+			                    alert("There was an error: " + error.message);
+			                });
+			            }).catch(function(error) {
+			                console.log("There was an error: ", error.message);
+			                alert("There was an error: " + error.message);
+			            });
+			        }
+			    }).catch(function(error) {
+			        console.log("There was an error retrieving the job list: ", error.message);
+			        alert("There was an error retrieving the job list: " + error.message);
+			    });
+			}
+
+			// load masterlist, load job number
+			function loadJob(first) {
+			    var loader = document.getElementById("loader");
+			    //variable that will hold the created link for the new job
+			    var jobLink = undefined;
+			    //clean up input job number and assign to jobNo variable
+			    var jobNo = document.getElementById("job-number").value;
+			    jobNo = jobNo.trim()
+			    jobNo = jobNo.toUpperCase();
+			    if (!checkJobNum(jobNo) && !first) {
+			        msgTxt(2, "Job number must start with 'J' followed by numbers!");
+			        return;
+			    }
+			    
+			    //GET masterlist json object           		
+			    fetch(rootLink + masterLink + "/latest", {
+			            method: "GET",
+			            headers: {
+			                "Content-Type": "application/json; charset=utf-8",
+			                "secret-key": rowId
+			            }
+			        }).then(function(response) {
+			            if (response.ok) {
+			                return response.json();
+			            }
+			            throw new Error("Network server is ignoring us.. How sad.. Try again later!");
+			        })
+			        //if successful, assign json object to jobArray variable
+			        .then(function(myJson) {
+			            //	alert(JSON.stringify(myJson));
+
+
+			            const list = document.getElementById('job-list'); 
+
+			            jobArray = myJson;
+
+			            var jobList = [];
+
+			            for(var item in jobArray){
+			            	if (jobArray.hasOwnProperty(item)) {
+			          
+			            	      jobList.push(item);
+			            	  }
+			            	
+			            }
+
+			            jobList = jobList.splice(0,10);
+			            list.innerHTML="";
+			            for(var item of jobList){
+			            	let option = document.createElement('option');
+			              	option.value = item;   
+			              	list.appendChild(option);
+			            }
+
+
+
+
+			            if (!(jobNo in jobArray) && (first == false)) {
+			                msgTxt(2, "Job number does not exist!");
+			                return
+			            }
+			            //if jobNo is good and jobNo is in masterlist, then fuckin load it	
+			            if (!first) {
+			                //assign url link of job number into jobLink variable
+			                jobLink = rootLink + jobArray[jobNo] + "/latest";
+			                //GET job number json object
+			                fetch(jobLink, {
+			                        method: "GET",
+			                        headers: {
+			                            "Content-Type": "application/json; charset=utf-8",
+			                            "secret-key": rowId
+			                        }
+			                    }).then(function(response) {
+			                        if (response.ok) {
+			                            return response.json();
+			                        }
+			                        throw new Error("Network server is ignoring us.. How sad.. Try again later!");
+			                    })
+			                    //if successful, load json object to corresponding html element
+			                    .then(function(myJson) {
+			                        var arr = myJson;
+			                        var table;
+			                        var jobNo = arr[0]["jobno"];
+			                        var dateTime = arr[0]["datetime"];
+			                        var surveyLoc = arr[0]["surveyloc"];
+			                        var voyNum = arr[0]["voynum"];
+			                        var vessel = arr[0]["vessel"];
+			                        var records = arr[0]["record"];
+			                        var gallery = arr[0]["gallery"];
+			                        var paraOne = arr[0]["paraone"];
+			                        var paraTwo = arr[0]["paratwo"];
+			                        document.getElementById("vessel-name").value = vessel;
+			                        document.getElementById("party-time").value = dateTime;
+			                        document.getElementById("survey-loc").value = surveyLoc; // == undefined ? "":surveyLoc;
+			                        document.getElementById("voy-num").value = voyNum; // == undefined ? "":voyNum;
+			                        document.getElementById("gallery-link").value = gallery;
+			                        document.getElementById("para-one").value = paraOne;
+			                        document.getElementById("para-two").value = paraTwo;
+			                        deleteItem(true, false);
+			                        for (var cnt = 0; cnt < records - 1; ++cnt) {
+			                            addNewItem();
+			                        }
+			                        var recordCol = document.getElementsByClassName("table-group");
+			                        //table = document.getElementsByClassName("booking-table");
+			                        var a = 0;
+			                        for (ctr = 1; ctr <= records; ++ctr) {
+			                            for (b = 0; b < jsonDesc.length; ++b) {
+			                            	if (b < jsonDesc.length-1){
+				                            	table = recordCol[ctr-1].children[1].firstChild;
+				                                table.rows[a++].cells[1].innerHTML = arr[ctr][jsonDesc[b]];
+				                               	// console.log("table" + ctr + " row: " + a);
+			                               	}else{
+
+				            					recordCol[ctr-1].children[0].getElementsByClassName("check-complete")[0]
+				            									.checked = arr[ctr][jsonDesc[b]];
+
+			        						}
+			                            }
+			                            a = 0;
+			                        }
+			                        noEdit(2);
+			                        msgTxt(1, "Job record has been loaded!", "Note: Changes are not save to database until you pressed save!");
+			                    }).catch(function(error) {
+			                        console.log("There was an error retrieving the record: ", error.message);
+			                        alert("There was an error retrieving the record: " + error.message);
+			                    });
+			            }
+			        }).catch(function(error) {
+			            console.log("There was an error retrieving the job list: ", error.message);
+			            alert("There was an error retrieving the job list: " + error.message);
+			        });
+			}
+			//set the date and time of my death
+			function setDateTime() {
+			    var d = new Date();
+			    var hr;
+			    var min;
+			    var today = d.toISOString().substr(0, 10);
+			    if (d.getHours() < 10) {
+			        hr = "0" + d.getHours();
+			    } else {
+			        hr = d.getHours();
+			    }
+			    if (d.getMinutes() < 10) {
+			        min = "0" + d.getMinutes();
+			    } else {
+			        min = d.getMinutes();
+			    }
+			    document.getElementById("party-time").value = today + "T" + hr + ":" + min;
+			}
+
+			function addNewItem() {
+			    //var table = document.getElementById("booking-table");
+			    var cell1;
+			    var cell2;
+			    var row;
+
+			    var newTable = document.createElement("table");
+			   
+
+			    newTable.classList.add("booking-table");
+			    newTable.classList.add("table-for-view");
+
+			  
+			  
+			    //document.getElementById("record-col").appendChild(panel);
+			    
+			    //i guess there's no need to add a tbody????
+			    for (i = 0; i < elementDesc.length; i++) {
+			        row = newTable.insertRow(-1);
+			        cell1 = row.insertCell(0);
+			        cell2 = row.insertCell(1);
+			        cell1.classList.add("td-header");
+			        cell2.classList.add("td-input");
+			        cell1.innerHTML = elementDesc[i];
+			        cell2.contentEditable = true;
+			        if (i == 0) {
+			            cell1.classList.add("book-ref");
+			            cell2.classList.add("book-ref");
+			        } else if (i == 3) {
+			            //cell1.classList.add("td-length");
+			            cell2.classList.add("td-length");
+			            cell2.classList.add("num-input");
+			        } else if (i == 4) {
+			            //cell1.classList.add("td-width");
+			            cell2.classList.add("td-width");
+			            cell2.classList.add("num-input");
+			        } else if (i == 5) {
+			            //cell1.classList.add("td-height");
+			            cell2.classList.add("td-height");
+			            cell2.classList.add("num-input");
+			        } else if (i == 6) {
+			            //cell1.classList.add("td-cum");
+			            cell2.classList.add("td-cum");
+			            cell2.classList.add("num-input");
+			        } else if (i == 7) {
+			            //cell1.classList.add("td-cum");
+			            cell2.classList.add("num-input");
+			        }
+			    }
+			    row = newTable.insertRow(-1);
+			    cell1 = row.insertCell(0);
+			    cell1.colSpan = 2;
+			    cell1.classList.add("cellnoborder");
+			    cell1.innerHTML = "&nbsp;";
+
+			    var but = document.createElement("button");
+			    var panel = document.createElement("div");			    
+			    var divGroup = document.createElement("div");
+
+			    but.classList.add("accordion");
+			    but.classList.add("active");
+
+     		    panel.appendChild(newTable);
+			    panel.classList.add("panel");
+			    panel.style.display = "block";
+    
+			    divGroup.appendChild(but);
+			    divGroup.appendChild(panel);
+			    divGroup.classList.add("table-group");
+
+			    document.getElementById("record-col").appendChild(divGroup);
+			    var len = document.getElementById("record-col").childElementCount;///getElementsByTagName("div").length;
+			    
+			    divGroup.id = "group "+len;
+			    but.innerHTML = '<span class="item-info">Item '+len+'</span><div class="right-child"><input style="vertical-align:middle; position:relative;" type="checkbox" class="check-complete" name="check-complete">Completed </div>'; 
+
+
+			   //	 panel.style.height = "auto"; //panel.scrollHeight + "px";
+
+			   
+			}
+
+			
+
+			function deleteItem(all, confirmation) {
+			    var tableGroup = document.getElementById("record-col")
+			    if (!all) {
+			        if (confirmation) {
+			            var r = confirm("Remove last table?");
+			            if (r == false) {
+			                return;
+			            }
+			        }
+			        tableGroup.removeChild(tableGroup.lastChild);
+			        if (tableGroup.childElementCount <= 0) {
+			            addNewItem();
+			        }
+			    } else {
+			        if (confirmation) {
+			            var r = confirm("Remove all tables?");
+			            if (r == false) {
+			                return;
+			            }
+			        }
+			        while (tableGroup.firstChild) {
+			            tableGroup.removeChild(tableGroup.firstChild);
+			        }
+			        addNewItem();
+			    }			    
+			}
+
+			function selectElementContent(el, copyOnly) {
+			    var body = document.body,
+			        range, sel;
+			    var galLink = document.getElementById("gallery-link").value;
+			    var surveyLocation = document.getElementById("survey-loc").value;
+			    var surveyDate = document.getElementById("party-time").value;
+			    // body.style.backgroundColor = "none";
+			    document.body.style.backgroundColor = "white";
+
+
+			
+
+
+
+
+
+			    if (galLink != "") {
+			        document.getElementById("image-link").href = galLink;
+			    }
+			    document.getElementById("survey-location").innerHTML = surveyLocation;
+			    surveyDate = surveyDate.replace("T", " ");
+			    document.getElementById("survey-date").innerHTML = surveyDate;
+			    var element1 = document.getElementById("hid-div-one");
+			    var element2 = document.getElementById("hid-div-two");
+			    var element3 = document.getElementById("hid-div-three");
+			    var element4 = document.getElementById("hid-div-four");
+			    element1.classList.remove("hid-div-");
+			    element3.classList.remove("hid-div-")
+			    var paraOne = document.getElementById("para-one").value;
+			    if (paraOne != "") {
+			        document.getElementById("para-one-copy").innerHTML = "<br>" + paraOne + "<br>";
+			        document.getElementById("para-one-copy").classList.remove("hid-div-");
+			    } else {
+			        document.getElementById("para-one-copy").classList.add("hid-div-");
+			    }
+			    var paraFour = document.getElementById("para-two").value;
+			    if (paraFour != "") {
+			        document.getElementById("para-four-copy").innerHTML = "<br>" + paraFour + "<br>";
+			        element4.classList.remove("hid-div-")
+			    }
+			    if (galLink != "") {
+			        //var element3 = document.getElementById("hid-div-three");
+			        element2.classList.remove("hid-div-")
+			    }
+
+			    //remove stuff that shouldn't show on copy/pase
+			    var bookingCol = document.getElementsByClassName("booking-table");
+			    var li = document.getElementById("record-col").getElementsByTagName("button");
+
+			    for(var l of li){
+			    	l.style.display="none";
+			    }
+			    for (var booking of bookingCol) {
+			        booking.classList.remove("table-for-view");
+			        booking.classList.add("table-for-email");
+			        //var a = booking.getElementsByClassName("cellnoborder")[0];
+			        //a.style.height="20px";
+			    }
+
+			    
+			    //document.getElementById("booking-table").classList.remove("table-for-view");
+			    //document.getElementById("booking-table").classList.add("table-for-email");
+			    if (document.createRange && window.getSelection) {
+			        range = document.createRange();
+			        sel = window.getSelection();
+			        sel.removeAllRanges();
+			        try {
+			            range.selectNodeContents(el);
+			            sel.addRange(range);
+			        } catch (e) {
+			            range.selectNode(el);
+			            sel.addRange(range);
+			        }
+			        document.execCommand("copy");
+			    } else if (body.createTextRange) {
+			        range = body.createTextRange();
+			        range.moveToElementText(el);
+			        range.select();
+			        range.execCommand("Copy");
+			    }
+			    // if (typeof(Storage) !== "undefined") {
+			    //  localStorage.setItem("lastname", "Smith");
+			    //   document.getElementById("result").innerHTML = localStorage.getItem("lastname");
+			    //} else {
+			    //  document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+			    //}
+			    if (window.getSelection) {
+			        window.getSelection().removeAllRanges();
+			    } else if (document.selection) {
+			        document.selection.empty();
+			    }
+			    element1.classList.add("hid-div-");
+			    element2.classList.add("hid-div-");
+			    element3.classList.add("hid-div-");
+			    element4.classList.add("hid-div-");
+
+
+			    
+			    for(var l of li){
+			    	l.style.display="block";
+			    }
+			    for (var booking of bookingCol) {
+			        booking.classList.add("table-for-view");
+			        booking.classList.remove("table-for-email");
+			       // var a = booking.getElementsByClassName("cellnoborder")[0];
+			       // a.style.height="1px";
+			    }
+
+
+			 
+			    //document.getElementById("booking-table").classList.add("table-for-view");
+			    //document.getElementById("booking-table").classList.remove("table-for-email");
+			    document.body.style.backgroundColor = "#fcfaf8";
+			    if (copyOnly == false) {
+			        var jobNum = document.getElementById("job-number").value;
+			        jobNum = jobNum.toUpperCase();
+			        var vesselN = document.getElementById("vessel-name").value;
+			        vesselN = vesselN.toUpperCase();
+			        var vesselVoy = document.getElementById("voy-num").value;
+			        vesselVoy = vesselVoy.toUpperCase();
+			        var subject = jobNum + " " + vesselN + " V." + vesselVoy + " Pre-Shipment Cargo Condition, Measurement, and Lashing Survey";
+			        window.location.href = "mailto:?subject=" + subject;
+			    }
+			}
+
+			
+
+			function addCommas(num) {
+			    var str = num.toString().split(".");
+			    if (str[0].length >= 4) {
+			        //add comma every 3 digits befor decimal
+			        str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, "$1,");
+			    }
+			    /* Optional formating for decimal places
+			    if (str[1] && str[1].length >= 4) {
+			        //add space every 3 digits after decimal
+			        str[1] = str[1].replace(/(\d{3})/g, "$1 ");
+			    }*/
+			    return str.join(".");
+			}
+
+			function removeCommas(num) {
+			    var mystring = num;
+			    var newchar = ""
+			    mystring = mystring.split(",").join(newchar);
+			    return mystring;
+			}
+		</script>
+       
+    </body>
+</html>
