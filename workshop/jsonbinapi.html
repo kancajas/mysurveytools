@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JSONBin Manager</title>
+</head>
+<body>
+    <input id="jobno" type="text" value="">
+    <button id="create" onclick="createBin()">Create BIN</button>
+    <br>
+    <input id="jobdel" type="text" value="">
+    <button id="delete" onclick="deleteBin()">Delete BIN</button>
+
+<script>
+const rootLink = "https://api.jsonbin.io/b/";
+const masterLink = "5bdd1089baccb064c0c0e0cb"; //1fw7ck";
+const colId = "5bdd0f66716f9364f8d1278b";
+const rowId = "$2a$10$7AroDmsNI57xWxJ1o.1fUeb0vWv.D7.ySLUXtDQPrEcVpQ3hfRgc6";
+
+
+function createBin(){
+    var jobNo = document.getElementById("jobno").value;
+    var obj = {"Name":jobNo};
+    fetch(rootLink, {
+        method: "POST",
+        body: JSON.stringify(obj),
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "secret-key": rowId,
+            
+            "name": jobNo
+        }
+    }).then(function(response) {
+        if (response.ok) {
+           // return response.json();
+            console.log(response.json());
+        }
+    });
+
+}
+
+function deleteBin(){
+    var jobNo = document.getElementById("jobdel").value;
+    var obj = {"Name":jobNo};
+    fetch(rootLink+jobNo, {
+        method: "DELETE",
+        body: JSON.stringify(obj),
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "secret-key": rowId,
+        }
+    }).then(function(response) {
+        if (response.ok) {
+           // return response.json();
+            console.log(response.json());
+        }
+    });
+
+}
+
+
+ 
+</script>
+
+</body>
+</html>

@@ -1218,7 +1218,8 @@ Date: 20 October 2018
 			                    })
 			                    //if successful, load json object to corresponding html element
 			                    .then(function(myJson) {
-			                        var arr = myJson;
+									var arr = myJson;
+									console.log(JSON.stringify(arr));
 			                        var table;
 			                        var jobNo = arr[0]["jobno"];
 			                        var dateTime = arr[0]["datetime"];

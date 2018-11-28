@@ -15,6 +15,7 @@ Date: 20 October 2018
 	<title>RoRo Measurement and Lashing Survey Field Report</title>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular-resource.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular-animate.js"></script>
 	<!-- <link rel="stylesheet" href="css/styles.css"> -->
 	<!-- Fairly short code so adding all styles and scripts in this single file as well.. Sue me!-->
 	<style>
@@ -77,6 +78,16 @@ Date: 20 October 2018
 			border-right: 0px solid white;		
 			height:20px;
 		}
+
+		.panel{
+			max-height:800px;
+			transition: max-height 0.4s ease-out;
+			overflow:hidden;
+		}
+
+		.ng-hide{
+			max-height:0;
+		}
 	</style>
 </head>
 
@@ -106,8 +117,7 @@ Date: 20 October 2018
 					<div class="w3-section">
 						<input ng-model="key" class="w3-input w3-section w3-border" name="job-number" id="job-number" type="text" placeholder="Job Number" list="job-list" autofocus> 
 						<datalist id="job-list">
-							<option ng-repeat="x1 in names" value="{{jobList.drname}}">
-							<option value="">
+							<option ng-repeat="x in masterArray.Records" value="{{x.jobno}}">
 						</datalist>
 						<button ng-show="!jobLoaded" ng-click="newJob()" class="w3-button w3-black w3-card w3-padding-small" id="new-job" type="button">New
 							Job</button>
@@ -156,11 +166,11 @@ Date: 20 October 2018
 			</div>
 
 			<div class="w3-container w3-padding-16">
-				<div class="w3-section" id="group-1">
-					<button class="w3-button w3-block w3-black w3-left-align" onclick="handleAccordion(event,'item-1')">
+				<div ng-repeat="x in recordCol.Records" class="w3-section" id="group-{{$index+1}}">
+					<button class="w3-button w3-block w3-black w3-left-align" ng-click="handleHide($index)">
 						<div class="w3-row">
 							<div class="w3-col s6 m6 l6">
-								<span class="item-info">Item 1</span>
+								<span class="item-info">Item-{{$index+1}}</span>
 							</div>
 							<div class="w3-col s6 m6 l6">
 								<div class="w3-right-align w3-display-container">
@@ -170,12 +180,12 @@ Date: 20 October 2018
 							</div>
 						</div>
 					</button>
-					<div id="item-1" class="w3-section w3-hide w3-show">
+					<div id="item-{{$index+1}}" class="w3-section panel" ng-class="{'collapsed':!hidder[$index]}" ng-show="hidder[{{$index}}]">
 						<table class=" w3-table booking-table">
 							<tbody>
 								<tr>
 									<td class="td-header book-ref">Booking Reference</td>
-									<td class="td-input book-ref" contenteditable="false"></td>
+									<td class="td-input book-ref" contenteditable="false">{{x.Booking}}</td>
 								</tr>
 								<tr>
 									<td class="td-header">Unit</td>
