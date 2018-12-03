@@ -88,6 +88,16 @@ Date: 20 October 2018
 		.ng-hide{
 			max-height:0;
 		}
+
+		textarea:focus, input:focus{
+    		outline: none;
+			
+		}
+
+		.table-input{
+			border:none;
+			width:100%;
+		}
 	</style>
 </head>
 
@@ -115,7 +125,7 @@ Date: 20 October 2018
 			<div class="w3-container w3-padding-16">
 				<form id="report-details">
 					<div class="w3-section">
-						<input ng-model="key" class="w3-input w3-section w3-border" name="job-number" id="job-number" type="text" placeholder="Job Number" list="job-list" autofocus> 
+						<input ng-disabled="jobLoaded" ng-model="key" class="w3-input w3-section w3-border" name="job-number" id="job-number" type="text" placeholder="Job Number" list="job-list" autofocus> 
 						<datalist id="job-list">
 							<option ng-repeat="x in masterArray.Records" value="{{x.jobno}}">
 						</datalist>
@@ -133,32 +143,32 @@ Date: 20 October 2018
 						Date and Time
 						<br>
 						<input class="w3-input" type="datetime-local" id="party-time" name="party-time" value="2018-10-01T19:30" min="2016-01-07T00:00"
-						 max="2019-12-14T00:00" step="300">
+						 max="2019-12-14T00:00" step="300" ng-model="recordCol.Datetime">
 					</div>
 
 					<div class="w3-section">
 						Place of Inspection
 						<br>
-						<input class="w3-input" name="survey-loc" id="survey-loc" type="text" placeholder="Location">
+						<input class="w3-input" name="survey-loc" id="survey-loc" type="text" placeholder="Location" ng-model="recordCol.Surveyloc">
 					</div>
 
 					<div class="w3-section">
 						Vessel
 						<br>
-						<input class="w3-input" name="vessel-name" id="vessel-name" type="text" size="20" placeholder="Vessel Name">
+						<input class="w3-input" name="vessel-name" id="vessel-name" type="text" size="20" placeholder="Vessel Name" ng-model="recordCol.Vessel">
 					</div>
 
 					<div class="w3-section">
 						Voyage No
 						<br>
-						<input class="w3-input" name="voy-num" id="voy-num" type="text" placeholder="Vessel Voyage">
+						<input class="w3-input" name="voy-num" id="voy-num" type="text" placeholder="Vessel Voyage" ng-model="recordCol.Voynum">
 					</div>
 					<div class="w3-section">
 						Comment
 						<br>
 						<div class="w3-display-container">
 							<textarea class="w3-input" style="resize:none" name="para-one" id="para-one" type="textarea" rows="5"
-							 placeholder="Say Something!"></textarea>
+							 placeholder="Say Something!" ng-model="recordCol.Paraone"></textarea>
 							<span class="w3-button w3-gray w3-padding-small" style="position:absolute;top:0;right:0" onclick="document.getElementById('para-one').value='';">X</span>
 						</div>
 					</div>
@@ -185,43 +195,43 @@ Date: 20 October 2018
 							<tbody>
 								<tr>
 									<td class="td-header book-ref">Booking Reference</td>
-									<td class="td-input book-ref" contenteditable="false">{{x.Booking}}</td>
+									<td class="td-input book-ref"><input class="table-input" ng-model="x.Booking"></td>
 								</tr>
 								<tr>
 									<td class="td-header">Unit</td>
-									<td class="td-input" contenteditable="false"></td>
+									<td class="td-input"><input class="table-input" ng-model="x.Unit"></td>
 								</tr>
 								<tr>
 									<td class="td-header">Condition</td>
-									<td class="td-input" contenteditable="false"></td>
+									<td class="td-input"><input class="table-input" ng-model="x.Condition"></td>
 								</tr>
 								<tr>
 									<td class="td-header">Length (m)</td>
-									<td class="td-input td-length num-input" contenteditable="false"></td>
+									<td class="td-input td-length num-input"><input class="table-input" ng-model="x.Length"></td>
 								</tr>
 								<tr>
 									<td class="td-header">Width (m)</td>
-									<td class="td-input td-width num-input" contenteditable="false"></td>
+									<td class="td-input td-width num-input"><input class="table-input" ng-model="x.Width"></td>
 								</tr>
 								<tr>
 									<td class="td-header">Height (m)</td>
-									<td class="td-input td-height num-input" contenteditable="false"></td>
+									<td class="td-input td-height num-input"><input class="table-input" ng-model="x.Height"></td>
 								</tr>
 								<tr>
 									<td class="td-header">Cu Meters (cbm)</td>
-									<td class="td-input td-cum num-input" contenteditable="false"></td>
+									<td class="td-input td-cum num-input"><input class="table-input" ng-model="x.Cubic"></td>
 								</tr>
 								<tr>
 									<td class="td-header">Weight (mt)</td>
-									<td class="td-input num-input" contenteditable="false"></td>
+									<td class="td-input num-input"><input class="table-input" ng-model="x.Weight"></td>
 								</tr>
 								<tr>
 									<td class="td-header">Exceptions</td>
-									<td class="td-input" contenteditable="false"></td>
+									<td class="td-input"><input class="table-input" ng-model="x.Exceptions"></td>
 								</tr>
 								<tr>
 									<td class="td-header">Comments</td>
-									<td class="td-input" contenteditable="false"></td>
+									<td class="td-input"><input class="table-input" ng-model="x.Comments"></td>
 								</tr>
 								<tr>
 									<td colspan="2" class="cellnoborder">&nbsp;</td>
@@ -231,9 +241,13 @@ Date: 20 October 2018
 					</div>
 				</div>
 			</div>
-		</div>
+			<div class="w3-section">
+				
+			</div>
+		</div> <!-- app div -->
 	</div>
 	<script src="script/script.js"></script>
 </body>
 
 </html>
+
