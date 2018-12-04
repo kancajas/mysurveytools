@@ -121,9 +121,10 @@ Date: 20 October 2018
 		   			-->
 			</div>
 		</header>
-		<div ng-app="myApp" ng-controller="myCtrl" class="w3-content w3-display-container w3-light-grey w3-padding-32">
-			<div class="w3-container w3-padding-16">
-				<form id="report-details">
+		<br>
+		<div id="app-wrapper" class="w3-content w3-display-container w3-light-gray w3-margin-top" ng-app="myApp" ng-controller="myCtrl" >
+			<div id="details-wrapper" class="w3-container">
+				<form id="job-details" novalidate>
 					<div class="w3-section">
 						<input ng-disabled="jobLoaded" ng-model="key" class="w3-input w3-section w3-border" name="job-number" id="job-number" type="text" placeholder="Job Number" list="job-list" autofocus> 
 						<datalist id="job-list">
@@ -142,41 +143,41 @@ Date: 20 October 2018
 					<div class="w3-section">
 						Date and Time
 						<br>
-						<input class="w3-input" type="datetime-local" id="party-time" name="party-time" value="2018-10-01T19:30" min="2016-01-07T00:00"
-						 max="2019-12-14T00:00" step="300" ng-model="recordCol.Datetime">
+						<input class="w3-input w3-border" type="datetime-local" id="party-time" name="party-time" value="2018-10-01T19:30" min="2016-01-07T00:00"
+						 max="2019-12-14T00:00" step="300" ng-model="recordCol.Datetime" ng-disabled="!jobLoaded">
 					</div>
 
 					<div class="w3-section">
 						Place of Inspection
 						<br>
-						<input class="w3-input" name="survey-loc" id="survey-loc" type="text" placeholder="Location" ng-model="recordCol.Surveyloc">
+						<input class="w3-input w3-border" name="survey-loc" id="survey-loc" type="text" placeholder="Location" ng-model="recordCol.Surveyloc" ng-disabled="!jobLoaded">
 					</div>
 
 					<div class="w3-section">
 						Vessel
 						<br>
-						<input class="w3-input" name="vessel-name" id="vessel-name" type="text" size="20" placeholder="Vessel Name" ng-model="recordCol.Vessel">
+						<input class="w3-input w3-border" name="vessel-name" id="vessel-name" type="text" size="20" placeholder="Vessel Name" ng-model="recordCol.Vessel" ng-disabled="!jobLoaded">
 					</div>
 
 					<div class="w3-section">
 						Voyage No
 						<br>
-						<input class="w3-input" name="voy-num" id="voy-num" type="text" placeholder="Vessel Voyage" ng-model="recordCol.Voynum">
+						<input class="w3-input w3-border" name="voy-num" id="voy-num" type="text" placeholder="Vessel Voyage" ng-model="recordCol.Voynum" ng-disabled="!jobLoaded">
 					</div>
 					<div class="w3-section">
 						Comment
 						<br>
 						<div class="w3-display-container">
-							<textarea class="w3-input" style="resize:none" name="para-one" id="para-one" type="textarea" rows="5"
-							 placeholder="Say Something!" ng-model="recordCol.Paraone"></textarea>
-							<span class="w3-button w3-gray w3-padding-small" style="position:absolute;top:0;right:0" onclick="document.getElementById('para-one').value='';">X</span>
+							<textarea class="w3-input w3-border" style="resize:none" name="para-one" id="para-one" type="textarea" rows="5"
+							 placeholder="Say Something!" ng-model="recordCol.Paraone" ng-disabled="!jobLoaded"></textarea>
+							<span class="w3-button w3-gray w3-padding-small w3-display-topright" onclick="document.getElementById('para-one').value='';">X</span>
 						</div>
 					</div>
 				</form>
-			</div>
+			</div> <!-- details-wrapper -->
 
-			<div class="w3-container w3-padding-16">
-				<div ng-repeat="x in recordCol.Records" class="w3-section" id="group-{{$index+1}}">
+			<div id="items-wrapper" class="w3-container">
+				<div id="items-{{$index+1}}" ng-repeat="x in recordCol.Records" class="w3-section" id="group-{{$index+1}}">
 					<button class="w3-button w3-block w3-black w3-left-align" ng-click="handleHide($index)">
 						<div class="w3-row">
 							<div class="w3-col s6 m6 l6">
@@ -190,8 +191,8 @@ Date: 20 October 2018
 							</div>
 						</div>
 					</button>
-					<div id="item-{{$index+1}}" class="w3-section panel" ng-class="{'collapsed':!hidder[$index]}" ng-show="hidder[{{$index}}]">
-						<table class=" w3-table booking-table">
+					<div id="item-panel-{{$index+1}}" class="w3-section panel" ng-class="{'collapsed':!hidder[$index]}" ng-show="hidder[{{$index}}]">
+						<table id="item-table-{{$index+1}}" class="w3-table booking-table">
 							<tbody>
 								<tr>
 									<td class="td-header book-ref">Booking Reference</td>
@@ -233,18 +234,18 @@ Date: 20 October 2018
 									<td class="td-header">Comments</td>
 									<td class="td-input"><input class="table-input" ng-model="x.Comments"></td>
 								</tr>
-								<tr>
+								<!-- <tr>
 									<td colspan="2" class="cellnoborder">&nbsp;</td>
-								</tr>
+								</tr> -->
 							</tbody>
 						</table>
-					</div>
-				</div>
-			</div>
+					</div> <!-- item-panel-{{$index+1}} -->
+				</div> <!-- items-{{$index+1}} -->
+			</div> <!-- items-wrapper -->
 			<div class="w3-section">
 				
 			</div>
-		</div> <!-- app div -->
+		</div> <!-- app-wrapper -->
 	</div>
 	<script src="script/script.js"></script>
 </body>
