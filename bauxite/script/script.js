@@ -177,6 +177,8 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
     $scope.hidder = new Array(20).fill(true);
     $scope.editMode = true;
 
+    $scope.validJobNo = /^[J]{1}[0-9]{3,6}$/;
+
     $scope.jobItem = function() {
         this.Booking = "SHIT";
         this.Records = [{Booking:"ERERER"}];
@@ -191,7 +193,8 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
 
     //load job on button press
     $scope.loadJob = function(jobNo){
-        var obj = $filter('filter')($scope.masterArray.Records, {jobno: $scope.key}, true)[0];
+        if ($scope.key === undefined) return;
+        var obj = $filter('filter')($scope.masterArray.Records, {jobno: $scope.key}, true)[0]; // note: if key is undefined houston we have a problem
         $log.info("Loading: "+ obj.jobno + " " + obj.key);
         if (obj !== undefined){
             JobHandler.pullData(obj.key).then(function(response){ 
@@ -225,11 +228,13 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
         //check validity of jobno
         //check if existing in masterArray
         //if existing, load instead
-        var obj = $filter('filter')($scope.masterArray.Records, {jobno: $scope.key}, true)[0];
-        if (obj === undefined){
-            $scope.recordCol.Records = [];
-            $scope.addItem();
-            $scope.jobLoaded = true;
+        if ($scope.validateJob($scope.key)){
+            var obj = $filter('filter')($scope.masterArray.Records, {jobno: $scope.key}, true)[0];
+            if (obj === undefined){
+                $scope.recordCol.Records = [];
+                $scope.addItem();
+                $scope.jobLoaded = true;
+            }
         }
     };
 
@@ -240,6 +245,13 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
         $scope.recordCol["Datetime"] = today;
         $scope.key = null;
         $scope.jobLoaded = false;
+    };
+
+    $scope.validateJob = function(possibleJobNo){
+        var jobNo = possibleJobNo;
+        var jobNoREGX = /^[J]{1}[0-9]{3,6}$/;
+        return jobNoREGX.test(jobNo);
+        
     };
 
     $scope.addItem = function() {
@@ -276,7 +288,12 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
       
         $scope.recordCol.Records.push({});
         $log.info($scope.recordCol);
-    }
+    };
+
+    $scope.deleteItem = function() {
+        $scope.recordCol.Records.pop();
+        $log.info($scope.recordCol);
+    };
 
 
     $scope.getToday = function () {

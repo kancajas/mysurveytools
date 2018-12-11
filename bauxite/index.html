@@ -98,6 +98,11 @@ Date: 20 October 2018
 			border:none;
 			width:100%;
 		}
+
+		input.ng-invalid {
+			outline: 1px solid red;
+			border: 1px solid red;
+		}
 	</style>
 </head>
 
@@ -124,9 +129,10 @@ Date: 20 October 2018
 		<br>
 		<div id="app-wrapper" class="w3-content w3-display-container w3-light-gray w3-margin-top" ng-app="myApp" ng-controller="myCtrl" >
 			<div id="details-wrapper" class="w3-container">
-				<form id="job-details" novalidate>
+				<form name="jobDetails" id="job-details" novalidate>
 					<div class="w3-section">
-						<input ng-disabled="jobLoaded" ng-model="key" class="w3-input w3-section w3-border" name="job-number" id="job-number" type="text" placeholder="Job Number" list="job-list" autofocus> 
+						<input ng-disabled="jobLoaded" ng-model="key" ng-pattern="validJobNo" class="w3-input w3-section w3-border" name="jobNumber" id="job-number" type="text" placeholder="Job Number" list="job-list" autofocus>
+						<p class="w3-text-red" ng-show="jobDetails.jobNumber.$dirty && jobDetails.jobNumber.$invalid">Invalid Job Number!</p>
 						<datalist id="job-list">
 							<option ng-repeat="x in masterArray.Records" value="{{x.jobno}}">
 						</datalist>
@@ -242,9 +248,12 @@ Date: 20 October 2018
 					</div> <!-- item-panel-{{$index+1}} -->
 				</div> <!-- items-{{$index+1}} -->
 			</div> <!-- items-wrapper -->
-			<div class="w3-section">
-				
-			</div>
+			<div id="footer-wrapper" class="w3-container">
+				<div class="w3-section">
+					<button id="add-item" class="w3-button w3-black w3-card w3-padding-small" form="job-details" ng-click="addItem()">Add Item</button>
+					<button id="add-item" class="w3-button w3-black w3-card w3-padding-small" form="job-details" ng-click="deleteItem()">Delete Item</button>
+				</div>
+			</div><!-- /.footer-wrapper -->
 		</div> <!-- app-wrapper -->
 	</div>
 	<script src="script/script.js"></script>
