@@ -74,14 +74,16 @@ myApp.factory('JobHandler', function ($http, $window,$log) {
             return $http(req).then(successCallback, errorCallback);
         },
         createData: function (recordCol) {
-            var jobLink = rootLink + jobKey;
+           // var jobLink = rootLink + jobKey;
+          // console.log(angular.toJson(recordCol));
             var req = {
-                method: "PUT",
+                method: "POST",
                 data: angular.toJson(recordCol),
-                url: jobLink,
+                url: rootLink,
                 headers: {
                     "Content-Type": "application/json",
-                    "secret-key": sKey
+                    "secret-key": sKey,
+                    "name":recordCol["Jobno"]
                 }
             }
             return $http(req).then(successCallback, errorCallback);
@@ -172,7 +174,7 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
     $scope.key = null;
     $scope.record = {};
     $scope.masterArray = [];
-    $scope.recordCol = [];
+    $scope.recordCol = {};
     $scope.jobLoaded = false;
     $scope.hidder = new Array(20).fill(true);
     $scope.editMode = true;
@@ -204,7 +206,7 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
                     $scope.recordCol = response.data;     
                     $scope.recordCol["Datetime"] = $scope.convertDate($scope.recordCol["Datetime"]);
                     $scope.jobLoaded = true;
-                    $log.info("Success: " + $scope.recordCol); 
+                    $log.info("Success: " + $scope.recordCol["Jobno"]); 
                 }
             });           
         }
@@ -212,8 +214,10 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
 
     $scope.saveJob = function(){
         var obj = $filter('filter')($scope.masterArray.Records, {jobno: $scope.key}, true)[0];
-        $log.info("Saving: "+ obj.jobno + " " + obj.key);
+      //  $log.info("Saving: "+ obj.jobno + " " + obj.key);
         if (obj !== undefined){
+            $log.info("Saving: "+ obj.jobno + " " + obj.key);
+            $log.info(angular.toJson($scope.recordCol));
             JobHandler.pushData(obj.key,$scope.recordCol).then(function(response){ 
                 if (!response.data.success){
                     $window.alert("Opps: " + response.message);
@@ -221,6 +225,16 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
                     $log.info("Success: " + $scope.recordCol); 
                 }
             });           
+        }else{
+            $log.info(angular.toJson($scope.recordCol));
+            $log.info(angular.toJson($scope.recordCol["Surveyloc"]));
+            JobHandler.createData($scope.recordCol).then(function(response){ 
+                if (!response.data.success){
+                    $window.alert("Opps: " + response.message);
+                }else{
+                    $log.info("Success: " + $scope.recordCol); 
+                }
+            });            
         }
     };
 
