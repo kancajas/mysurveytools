@@ -85,7 +85,7 @@ Date: 20 October 2018
 			overflow:hidden;
 		}
 
-		.ng-hide{
+		.panel.ng-hide{
 			max-height:0;
 		}
 
@@ -103,6 +103,49 @@ Date: 20 October 2018
 			outline: 1px solid red;
 			border: 1px solid red;
 		}
+
+		#load-div{
+			position: fixed;
+			left: 50%;
+			top: 50%;
+			z-index: 1;
+			width: 120px;
+			height: 180px;
+			margin: -60px 0 0 -60px;
+		}
+
+		#load-div p{
+			bottom: 5px;
+			position:absolute;
+			text-align: center;
+			font-weight: bold;
+			width: 100%;
+		}
+
+		#loader {
+			position: absolute;
+			left: 50%;
+			z-index: 1;
+			width: 120px;
+			height: 120px;
+			margin: 0 0 0 -60px;
+			border: 16px solid #f3f3f3;
+			border-radius: 50%;
+			border-top: 16px solid #3498db;		
+			-webkit-animation: spin .2s linear infinite;
+			animation: spin .2s linear infinite;
+		}
+
+		@-webkit-keyframes spin {
+			0% { -webkit-transform: rotate(0deg); }
+			100% { -webkit-transform: rotate(360deg); }
+		}
+
+		@keyframes spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+
 	</style>
 </head>
 
@@ -128,29 +171,37 @@ Date: 20 October 2018
 		</header>
 		<br>
 		<div id="app-wrapper" class="w3-content w3-display-container w3-light-gray w3-margin-top" ng-app="myApp" ng-controller="myCtrl" >
+			<div id="load-div" ng-show="loader">
+				<div id="loader">
+				</div>
+				<p>Fetching Data...</p>
+			</div>
+			
 			<div id="details-wrapper" class="w3-container">
 				<form name="jobDetails" id="job-details" novalidate>
 					<div class="w3-section">
 						<input ng-disabled="jobLoaded" ng-model="key" ng-pattern="validJobNo" class="w3-input w3-section w3-border" name="jobNumber" id="job-number" type="text" placeholder="Job Number" list="job-list" autofocus>
-						<p class="w3-text-red" ng-show="jobDetails.jobNumber.$dirty && jobDetails.jobNumber.$invalid">Invalid Job Number!</p>
+						
 						<datalist id="job-list">
 							<option ng-repeat="x in masterArray.Records" value="{{x.jobno}}">
 						</datalist>
-						<button ng-show="!jobLoaded" ng-click="newJob()" class="w3-button w3-black w3-card w3-padding-small" id="new-job" type="button">New
+						<button ng-disabled="jobDetails.jobNumber.$invalid" ng-show="!jobLoaded" ng-click="newJob()" class="w3-button w3-black w3-card w3-padding-small" id="new-job" type="button">New
 							Job</button>
-						<button ng-show="jobLoaded" ng-click="saveJob()" class="w3-button w3-black w3-card w3-padding-small" id="save-job" type="button">Save
+						<button ng-cloak ng-show="jobLoaded" ng-click="saveJob()" class="w3-button w3-black w3-card w3-padding-small" id="save-job" type="button">Save
 							Job</button>
-						<button ng-show="!jobLoaded" ng-click="loadJob(key)" class="w3-button w3-black w3-card w3-padding-small" id="load-job" type="button">Load
+						<button ng-disabled="jobDetails.jobNumber.$invalid" ng-show="!jobLoaded" ng-click="loadJob(key)" class="w3-button w3-black w3-card w3-padding-small" id="load-job" type="button">Load
 							Job</button>
-						<button ng-show="jobLoaded" ng-click="closeJob()" class="w3-button w3-black w3-card w3-padding-small" id="reset-form" type="button">Close
+						<button ng-cloak ng-show="jobLoaded" ng-click="closeJob()" class="w3-button w3-black w3-card w3-padding-small" id="reset-form" type="button">Close
 							Job</button>
+						<span class="w3-text-red" ng-show="jobDetails.jobNumber.$dirty && jobDetails.jobNumber.$invalid" ng-cloak>Invalid Job Number!</span>
+						<span class="w3-text-red" ng-show="error" ng-cloak>{{error}}</span>
 					</div>
 
-					<div class="w3-section">
+					<div class="w3-section" >
 						Date and Time
 						<br>
-						<input class="w3-input w3-border" type="datetime-local" id="party-time" name="party-time" value="2018-10-01T19:30" min="2016-01-07T00:00"
-						 max="2019-12-14T00:00" step="300" ng-model="recordCol.Datetime" ng-disabled="!jobLoaded">
+						<input class="w3-input w3-border" type="datetime-local" id="party-time" name="party-time" min="2018-01-01T00:00"
+						 max="2019-12-31T00:00" step="300" ng-model="recordCol.Datetime" ng-disabled="!jobLoaded">
 					</div>
 
 					<div class="w3-section">
@@ -191,7 +242,7 @@ Date: 20 October 2018
 							</div>
 							<div class="w3-col s6 m6 l6">
 								<div class="w3-right-align w3-display-container">
-									<input style="vertical-align:middle; position:relative; top:-1px;" type="checkbox" class="check-complete" name="check-complete">
+									<input style="vertical-align:middle; position:relative; top:-1px;" type="checkbox" class="check-complete" name="check-complete" ng-model="x.Completed">
 									Completed
 								</div>
 							</div>

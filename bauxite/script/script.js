@@ -35,13 +35,35 @@ myApp.factory('MasterLoader', function ($http) {
         }
     }
     return {
-        getData: function () {
+        pullData: function () {
             return $http(req);
+        },
+        pushData: function (masterCol) {
+            var jobLink = rootLink + masterLink;
+            var req = {
+                method: "PUT",
+                data: angular.toJson(masterCol),
+                url: jobLink,
+                headers: {
+                    "Content-Type": "application/json",
+                    "secret-key": skey
+                }
+            }
+            return $http(req).then(successCallback, errorCallback);
         }
     };
+
+    function successCallback(response) {
+        return response;
+    }
+
+    function errorCallback(response) {
+        $window.alert("Something went wrong! It's FUBAR..");
+        return response;
+    }
 });
 
-myApp.factory('JobHandler', function ($http, $window,$log) {
+myApp.factory('JobHandler', function ($http, $window, $log) {
     var rootLink = "https://api.jsonbin.io/b/";
     var colId = "5bdd0f66716f9364f8d1278b";
     var sKey = "$2a$10$7AroDmsNI57xWxJ1o.1fUeb0vWv.D7.ySLUXtDQPrEcVpQ3hfRgc6";
@@ -171,6 +193,7 @@ myApp.directive('contenteditable', ['$sce', function($sce) {
 // });
 
 myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, MasterLoader, JobHandler) {
+    $scope.error=null;
     $scope.key = null;
     $scope.record = {};
     $scope.masterArray = [];
@@ -178,37 +201,85 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
     $scope.jobLoaded = false;
     $scope.hidder = new Array(20).fill(true);
     $scope.editMode = true;
+    $scope.loader = false;
+    $scope.validJobNo = /^[J]{1}[0-9]{3,6}$/i;
 
-    $scope.validJobNo = /^[J]{1}[0-9]{3,6}$/;
+    class Job {
+        constructor(obj){
+            this.Jobno = "";
+            this.Datetime = "";
+            this.Description = "";
+            this.Surveyloc = "";
+            this.Voynum = "";
+            this.Vessel = "";
+            this.Gallery = "";
+            this.Record = "";
+            this.Paraone = "";
+            this.Paratwo = "";
+            this.Records = [];
+            for (var prop in obj){
+                if (this.hasOwnProperty(prop)) 
+                    {
+                        this[prop] = obj[prop];
+                    }
+            } 
 
-    $scope.jobItem = function() {
-        this.Booking = "SHIT";
-        this.Records = [{Booking:"ERERER"}];
-        
-     };
-     
+        }
+    }
+
+    class Record {
+        constructor(){
+            this.Booking = "";
+            this.Unit = "";
+            this.Condition = "";
+            this.Length = "";
+            this.Width = "";
+            this.Height = "";
+            this.Cubic = "";
+            this.Weight = "";
+            this.Exceptions = "";
+            this.Comments = "";
+            this.Completed = false;
+        }
+    }
+   
+   // $scope.recordCol = new Job($scope.key, convertDate(getToday()),[]);
+
+   // $log.info(angular.toJson(s));
+
     //initial load of masterlist
-    MasterLoader.getData().then(function(response){
+    $scope.loader = true;
+    MasterLoader.pullData().then(function(response){
         $scope.masterArray = response.data;
        // $log.info($scope.masterArray);      
+    }).finally(function(){
+        $scope.loader = false;
     });
 
     //load job on button press
     $scope.loadJob = function(jobNo){
-        if ($scope.key === undefined) return;
         var obj = $filter('filter')($scope.masterArray.Records, {jobno: $scope.key}, true)[0]; // note: if key is undefined houston we have a problem
-        $log.info("Loading: "+ obj.jobno + " " + obj.key);
         if (obj !== undefined){
+            $log.info("Loading: "+ obj.jobno + " " + obj.key);
+            $scope.loader = true;
             JobHandler.pullData(obj.key).then(function(response){ 
+                $log.info(angular.toJson(response));
                 if (response.data.success === false){
                     $window.alert("Opps: " + response.message);
                 }else{
-                    $scope.recordCol = response.data;     
-                    $scope.recordCol["Datetime"] = $scope.convertDate($scope.recordCol["Datetime"]);
-                    $scope.jobLoaded = true;
-                    $log.info("Success: " + $scope.recordCol["Jobno"]); 
+                    let job = new Job(angular.fromJson(response.data));
+                    if (job instanceof Job){     
+                        $scope.recordCol = job;
+                        $scope.recordCol["Datetime"] = convertDate($scope.recordCol["Datetime"]);
+                        $scope.jobLoaded = true;
+                        $log.info("Success: " + $scope.recordCol["Jobno"]); 
+                    }
                 }
-            });           
+            }).finally(function(){
+                $scope.loader = false;
+            });                   
+        }else{
+            alertMe("That job only exist in your imagination!");
         }
     };
 
@@ -219,20 +290,28 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
             $log.info("Saving: "+ obj.jobno + " " + obj.key);
             $log.info(angular.toJson($scope.recordCol));
             JobHandler.pushData(obj.key,$scope.recordCol).then(function(response){ 
-                if (!response.data.success){
-                    $window.alert("Opps: " + response.message);
+                if (response.data.success){
+                    $log.info("Success: " + $scope.recordCol);
                 }else{
-                    $log.info("Success: " + $scope.recordCol); 
+                    $window.alert("Opps: " + response.message); 
                 }
             });           
         }else{
-            $log.info(angular.toJson($scope.recordCol));
-            $log.info(angular.toJson($scope.recordCol["Surveyloc"]));
+           // $log.info(angular.toJson($scope.recordCol));
+           $scope.recordCol["Jobno"] = $scope.key;
             JobHandler.createData($scope.recordCol).then(function(response){ 
-                if (!response.data.success){
-                    $window.alert("Opps: " + response.message);
+                if (response.data.success){
+                    let id = response.data.id;
+                    $scope.masterArray.Records.push({"jobno": $scope.recordCol["Jobno"],"key":id});
+                    MasterLoader.pushData($scope.masterArray).then(function(response){ 
+                        if (response.data.success){
+                            $log.info("Success: " + $scope.recordCol);                          
+                        }else{
+                            $window.alert("Opps: " + response.message); 
+                        }
+                    });           
                 }else{
-                    $log.info("Success: " + $scope.recordCol); 
+                    $window.alert("Opps: " + response.message);
                 }
             });            
         }
@@ -245,20 +324,26 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
         if ($scope.validateJob($scope.key)){
             var obj = $filter('filter')($scope.masterArray.Records, {jobno: $scope.key}, true)[0];
             if (obj === undefined){
-                $scope.recordCol.Records = [];
+                $scope.recordCol = new Job({"Datetime":convertDate(getToday())});
+                //$scope.recordCol.Records = [];
                 $scope.addItem();
                 $scope.jobLoaded = true;
+            }else{
+                alertMe("Can't create what already exist!")
             }
         }
     };
 
     $scope.closeJob = function () {
-        $scope.recordCol = angular.copy({},$scope.master);
-        var today = new Date();
-        today.setSeconds(0,0);
-        $scope.recordCol["Datetime"] = today;
-        $scope.key = null;
+        $scope.recordCol = new Job({Datetime:convertDate(getToday())});
+       // var today = new Date();
+       // today.setSeconds(0,0);
+       // $scope.recordCol["Datetime"] = today;
+        $scope.key = "";
         $scope.jobLoaded = false;
+        $scope.jobDetails.$setPristine();
+        $scope.jobDetails.$setUntouched();
+        
     };
 
     $scope.validateJob = function(possibleJobNo){
@@ -309,7 +394,23 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
         $log.info($scope.recordCol);
     };
 
-
+    function getToday(){
+        var d = new Date();
+        var hr;
+        var min;
+        var today = d.toISOString().substr(0, 10);
+        if (d.getHours() < 10) {
+            hr = "0" + d.getHours();
+        } else {
+            hr = d.getHours();
+        }
+        if (d.getMinutes() < 10) {
+            min = "0" + d.getMinutes();
+        } else {
+            min = d.getMinutes();
+        }
+        return today + "T" + hr + ":" + min;
+    }
     $scope.getToday = function () {
         var d = new Date();
         var hr;
@@ -327,14 +428,29 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
         }
         return today + "T" + hr + ":" + min;
     };
+
+    function alertMe(msg){
+        $scope.error = msg; 
+        //TODO: use $timeout instead maybe?
+        setTimeout(function() {
+            $log.info("yes!");
+            $scope.error = "";
+            $scope.$apply();
+        }, 5000);
+    }
     
 
-
-    $scope.convertDate = function(dateString){
+    function convertDate(dateString){
         var s = dateString;
         var b = s.split(/\D+/);
         return new Date(b[0], --b[1], b[2], b[3], b[4], b[5]||0, b[6]||0);
-    };
+    }
+
+    // $scope.convertDate = function(dateString){
+    //     var s = dateString;
+    //     var b = s.split(/\D+/);
+    //     return new Date(b[0], --b[1], b[2], b[3], b[4], b[5]||0, b[6]||0);
+    // };
 
 
     $scope.handleHide = function (index) {     
