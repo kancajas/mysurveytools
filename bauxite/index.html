@@ -52,31 +52,24 @@ Date: 20 October 2018
 		}
 
 		.booking-table td.td-input {
-			text-align: left;
-				border: 1px solid gray;
-				background-color: white;
-				
-				padding: 5px;
-			
-				vertical-align: middle;
-		}
-		.booking-table td.td-header {
-			text-align: left;
-				border: 1px solid gray;
-				width: 160px;
-				padding: 5px;
-		
-				vertical-align: top;
+			border: 1px solid gray;
+			background-color: white;		
+			padding: 15px 5px;
+			vertical-align: middle;
 		}
 
 		.booking-table td.book-ref {
 			font-weight: bold;		
 		}
 
-		td.cellnoborder{		
-			border-left: 0px solid white;
-			border-right: 0px solid white;		
-			height:20px;
+		.booking-table th.td-header{
+			vertical-align: middle;
+		}
+
+	
+		/*override w3css firs-child 16px left padding*/
+		.booking-table th, td{ 
+			padding-left:8px !important;
 		}
 
 		.panel{
@@ -97,6 +90,7 @@ Date: 20 October 2018
 		.table-input{
 			border:none;
 			width:100%;
+			text-align: center;
 		}
 
 		input.ng-invalid {
@@ -234,6 +228,35 @@ Date: 20 October 2018
 			</div> <!-- details-wrapper -->
 
 			<div id="items-wrapper" class="w3-container">
+				<table id="booking-table" class="booking-table w3-table w3-bordered w3-centered w3-responsive">
+					<thead>
+						<tr>
+							<th class="td-header">No</th>
+							<th class="td-header">Datetime</th> <!-- date and time-->
+							<th class="td-header">Tray</th> <!-- tray tare -->
+							<th class="td-header">Wet Weigh</th> <!-- sample wet weight -->
+							<th class="td-header">Dry Weigh</th> <!-- sample dry weight -->
+							<th class="td-header">Rapid Weight</th>  <!-- rapid -->
+							<th class="td-header">Rapid Moisture</th> <!-- rapid result -->
+							<th class="td-header">Comment</th>	<!-- comment -->
+						</tr>
+					</thead>	
+					<tbody>
+						<tr ng-repeat="x in recordCol.Records">
+							<td class="td-input"><input class="table-input" ng-model="x.Recno"></td>
+							<td class="td-input"><input style="max-width:160px;" type="datetime-local" table-input" ng-model="x.Datetime"></td>
+							<td class="td-input"><input class="table-input" ng-model="x.Tray"></td>
+							<td class="td-input"><input class="table-input" ng-model="x.Wet"></td>
+							<td class="td-input"><input class="table-input" ng-model="x.Dry"></td>
+							<td class="td-input"><input class="table-input" ng-model="x.Rapidw"></td>
+							<td class="td-input"><input class="table-input" ng-model="x.Rapidm"></td>
+							<td class="td-input"><input class="table-input" ng-model="x.Comment"></td>
+						</tr>	
+					</tbody>
+				</table>
+			</div>
+
+			<!-- <div id="items-wrapper" class="w3-container">
 				<div id="items-{{$index+1}}" ng-repeat="x in recordCol.Records" class="w3-section" id="group-{{$index+1}}">
 					<button class="w3-button w3-block w3-black w3-left-align" ng-click="handleHide($index)">
 						<div class="w3-row">
@@ -290,15 +313,12 @@ Date: 20 October 2018
 								<tr>
 									<td class="td-header">Comments</td>
 									<td class="td-input"><input class="table-input" ng-model="x.Comments"></td>
-								</tr>
-								<!-- <tr>
-									<td colspan="2" class="cellnoborder">&nbsp;</td>
-								</tr> -->
+								</tr>								
 							</tbody>
 						</table>
-					</div> <!-- item-panel-{{$index+1}} -->
-				</div> <!-- items-{{$index+1}} -->
-			</div> <!-- items-wrapper -->
+					</div> 
+				</div> 
+			</div>  -->
 			<div id="footer-wrapper" class="w3-container">
 				<div class="w3-section">
 					<button id="add-item" class="w3-button w3-black w3-card w3-padding-small" form="job-details" ng-click="addItem()" ng-show="jobLoaded">Add Item</button>

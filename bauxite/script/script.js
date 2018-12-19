@@ -215,12 +215,12 @@ myApp.directive('contenteditable', ['$sce', function($sce) {
 // });
 
 myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, MasterLoader, JobHandler) {
-    $scope.error=null;
-    $scope.key = "";
-    $scope.record = {};
-    $scope.masterArray = [];
-    $scope.recordCol = {};
-    $scope.jobLoaded = false;
+    $scope.error=null; //set to true to show error div
+    $scope.key = ""; //holds current job no
+    $scope.record = {}; //holds a single sample object
+    $scope.masterArray = []; //holds the masterlist of jobs
+    $scope.recordCol = {}; // a colection of sample objects
+    $scope.jobLoaded = false; //set to true when a job is currently loaded and edited
     $scope.hidder = new Array(20).fill(true);
     $scope.editMode = true;
     $scope.loader = false;
@@ -251,15 +251,13 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
 
     class Record {
         constructor(obj){
-            this.Booking = "";
-            this.Unit = "";
-            this.Condition = "";
-            this.Length = "";
-            this.Width = "";
-            this.Height = "";
-            this.Cubic = "";
-            this.Weight = "";
-            this.Exceptions = "";
+            this.Recno = "";
+            this.Datetime = "";
+            this.Tray = "";
+            this.Wet = "";
+            this.Dry = "";
+            this.Rapidw = "";
+            this.Rapidm = "";
             this.Comments = "";
             this.Completed = false;
             for (var prop in obj){
@@ -280,6 +278,16 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
         }).finally(function(){
             $scope.loader = false;
         });
+    })();
+
+    (function(){
+        $scope.recordCol = new Job();
+        for (let ctr=0;ctr<50;++ctr)  {
+            $scope.recordCol.Records.push(new Record({"Recno":$scope.recordCol.Records.length+1}));
+        }
+        
+        
+       
     })();
 
     //loadMasterList();
