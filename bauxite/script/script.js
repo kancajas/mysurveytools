@@ -226,6 +226,14 @@ myApp.controller('myCtrl', function ($scope, $window, $http, $filter, $log, Mast
     $scope.loader = false;
     $scope.validJobNo = /^[J]{1}[0-9]{3,6}$/i;
 
+    $scope.table = 1;
+
+
+    $scope.changeTable = function(tableNo){
+        $scope.table = tableNo;
+        $log.info(tableNo);
+    };
+
     class Job {
         constructor(obj){
             this.Jobno = "";
@@ -498,3 +506,25 @@ function handleAccordion(e, id) {
 
 
 
+$(document).ready(function(){
+  
+    var tableOffset = $("#booking-table-1").offset().top;
+    var $header = $("#booking-table-1 > thead").clone();
+    var $fixedHeader = $("#header-fixed").append($header);
+    var $fix = $("#fixed-head");
+
+$(window).bind("scroll", function() {
+    var offset = $(this).scrollTop();
+   // alert("sdfg");
+    if (offset >= tableOffset && $fix.is(":hidden")) {
+        $fix.show();
+       // alert("dfgdfg");
+    }
+    else if (offset < tableOffset) {
+        $fix.hide();
+    }
+});
+
+
+
+});

@@ -12,7 +12,8 @@ Date: 20 October 2018
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=yes" />
 	<!-- W3 CSS because BOOTSTRAP is overrated! -->
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-	<title>RoRo Measurement and Lashing Survey Field Report</title>
+	<title>Aloca Bauxite Shipment Sampling</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular-resource.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular-animate.js"></script>
@@ -51,11 +52,20 @@ Date: 20 October 2018
 				position:relative;
 		}
 
+		/* #app-wrapper{
+			height:100vh;
+		} */
+
 		.booking-table td.td-input {
 			border: 1px solid gray;
 			background-color: white;		
-			padding: 15px 5px;
+			padding: 0 0;
+			
 			vertical-align: middle;
+		}
+
+		.booking-table input{
+			height:40px;
 		}
 
 		.booking-table td.book-ref {
@@ -69,7 +79,8 @@ Date: 20 October 2018
 	
 		/*override w3css firs-child 16px left padding*/
 		.booking-table th, td{ 
-			padding-left:8px !important;
+			padding-left:0 !important;
+			padding-right:0 !important;
 		}
 
 		.panel{
@@ -140,18 +151,34 @@ Date: 20 October 2018
 			100% { transform: rotate(360deg); }
 		}
 
+
+
+	#fixed-head { 
+    	position: fixed; 
+    	top: 0px; 
+		display:none;
+    	background-color:red;
+	}
+
+	::placeholder {
+  		color: lightgray;
+  		opacity: .9; /* Firefox */
+	}
+
 	</style>
 </head>
 
 <body>
-	<div class=body-wrap>
-		<!-- Navbar (sit on top) -->
-		<header class="w3-top">
+	<div >
+		
+		<!-- <header class="w3-top">
 			<div class="w3-bar w3-dark-grey w3-wide w3-card">
-				<a href="." class="w3-bar-item w3-button"><b>RoRo</b> Survey</a>
+				<a href="." class="w3-bar-item w3-button"><b>Bauxite</b> Sampling</a>
 				<div class="w3-right">
 					<span class="w3-bar-item">© 2018</span>
-				</div>
+				</div> -->
+
+
 				<!-- Float links to the right. Hide them on small screens -->
 				<!--  
 		   		    <div class="w3-right w3-hide-small">
@@ -161,17 +188,31 @@ Date: 20 October 2018
 		   		      
 		   		    </div>
 		   			-->
-			</div>
-		</header>
-		<br>
-		<div id="app-wrapper" class="w3-content w3-display-container w3-light-gray w3-margin-top" ng-app="myApp" ng-controller="myCtrl" >
+		
+		
+				<!-- </div>
+		</header> -->
+		
+		<div id="app-wrapper" class="w3-content w3-display-container w3-light-gray w3-padding-medium" ng-app="myApp" ng-controller="myCtrl" >
 			<div id="load-div" ng-show="loader">
 				<div id="loader">
 				</div>
 				<p>Processing Request...</p>
 			</div>
+			<div id="fixed-head" class="w3-container">
+				<table id="header-fixed" class="booking-table w3-table w3-bordered w3-centered w3-responsive">
+
+				</table>
+			</div>
+			<br>
+			<div class="w3-container">
+					<button ng-click="changeTable(0)" class="w3-button w3-blue">Shipment Info</button>
+					<button ng-click="changeTable(1)" class="w3-button w3-blue">Sample Log</button>
+					<button ng-click="changeTable(2)"  class="w3-button w3-blue">Drying Log</button>
+					<button ng-click="changeTable(3)"  class="w3-button w3-blue">Rapid Log</button>
+				</div>
 			
-			<div id="details-wrapper" class="w3-container">
+			<div ng-show="table==0" id="details-wrapper" class="w3-container">
 				<form name="jobDetails" id="job-details" novalidate>
 					<div class="w3-section">
 						<input ng-disabled="jobLoaded" ng-model="key" ng-pattern="validJobNo" class="w3-input w3-section w3-border" name="jobNumber" id="job-number" type="text" placeholder="Job Number" list="job-list" autofocus capitalize>
@@ -226,35 +267,100 @@ Date: 20 October 2018
 					</div>
 				</form>
 			</div> <!-- details-wrapper -->
-
-			<div id="items-wrapper" class="w3-container">
-				<table id="booking-table" class="booking-table w3-table w3-bordered w3-centered w3-responsive">
+		
+			<!-- <div style="overflow: auto; max-height: 100vh;"> -->
+			<div id="sampling-wrapper" class="w3-container" ng-show="table==1">
+				<table id="booking-table-1" class="booking-table w3-table w3-bordered w3-centered w3-responsive">
 					<thead>
 						<tr>
-							<th class="td-header">No</th>
-							<th class="td-header">Datetime</th> <!-- date and time-->
-							<th class="td-header">Tray</th> <!-- tray tare -->
-							<th class="td-header">Wet Weigh</th> <!-- sample wet weight -->
-							<th class="td-header">Dry Weigh</th> <!-- sample dry weight -->
-							<th class="td-header">Rapid Weight</th>  <!-- rapid -->
-							<th class="td-header">Rapid Moisture</th> <!-- rapid result -->
-							<th class="td-header">Comment</th>	<!-- comment -->
+							<th class="td-header" style="width:10%;">No</th>
+							<th class="td-header" style="width:30%;">Datetime</th> <!-- date and time-->
+							<th class="td-header" style="width:60%;">Comment</th>	<!-- comment -->
 						</tr>
 					</thead>	
 					<tbody>
 						<tr ng-repeat="x in recordCol.Records">
 							<td class="td-input"><input class="table-input" ng-model="x.Recno"></td>
-							<td class="td-input"><input style="max-width:160px;" type="datetime-local" table-input" ng-model="x.Datetime"></td>
-							<td class="td-input"><input class="table-input" ng-model="x.Tray"></td>
-							<td class="td-input"><input class="table-input" ng-model="x.Wet"></td>
-							<td class="td-input"><input class="table-input" ng-model="x.Dry"></td>
-							<td class="td-input"><input class="table-input" ng-model="x.Rapidw"></td>
-							<td class="td-input"><input class="table-input" ng-model="x.Rapidm"></td>
-							<td class="td-input"><input class="table-input" ng-model="x.Comment"></td>
+							<td class="td-input"><input class="table-input" type="datetime-local" table-input" ng-model="x.Datetime"></td>
+							<td class="td-input"><input class="table-input" ng-model="x.Comment"  placeholder="Comment"></td>
 						</tr>	
 					</tbody>
 				</table>
 			</div>
+
+			<div id="drying-wrapper" class="w3-container" ng-show="table==2">
+				<table id="booking-table-2" class="booking-table w3-table w3-bordered w3-centered w3-responsive">
+					<thead>
+						<tr>
+							<th class="td-header" style="width:10%;">No</th>
+							<th class="td-header" style="width:20%;">Tray</th> <!-- tray tare -->
+							<th class="td-header" style="width:20%;">Wet Weight</th> <!-- sample wet weight -->
+							<th class="td-header" style="width:20%;">Dry Weight</th> <!-- sample dry weight -->
+							<th class="td-header" style="width:30%;">Comment</th>	<!-- comment -->
+						</tr>
+					</thead>	
+					<tbody>
+						<tr ng-repeat="x in recordCol.Records">
+							<td class="td-input"><input class="table-input" ng-model="x.Recno"></td>
+							<td class="td-input"><input class="table-input" ng-model="x.Tray" placeholder="Tray Tare"></td>
+							<td class="td-input"><input class="table-input" ng-model="x.Wet" placeholder="Wet Weight"></td>
+							<td class="td-input"><input class="table-input" ng-model="x.Dry" placeholder="Dry Weight"></td>
+							<td class="td-input"><input class="table-input" ng-model="x.Comment" placeholder="Comment"></td>
+						</tr>	
+					</tbody>
+				</table>
+			</div>
+
+				<div id="rapid-wrapper" class="w3-container" ng-show="table==3">
+					<table id="booking-table-3" class="booking-table w3-table w3-bordered w3-centered w3-responsive">
+						<thead>
+							<tr>
+								<th class="td-header" style="width:10%;">No</th>
+								<th class="td-header" style="width:20%;">Rapid Weight</th>  <!-- rapid -->
+								<th class="td-header" style="width:20%;">Rapid Moisture</th> <!-- rapid result -->
+								<th class="td-header" style="width:50%;">Comment</th>	<!-- comment -->
+							</tr>
+						</thead>	
+						<tbody>
+							<tr ng-repeat="x in recordCol.Records">
+								<td class="td-input"><input class="table-input" ng-model="x.Recno"></td>
+								<td class="td-input"><input class="table-input" ng-model="x.Rapidw"></td>
+								<td class="td-input"><input class="table-input" ng-model="x.Rapidm"></td>
+								<td class="td-input"><input class="table-input" ng-model="x.Comment"></td>
+							</tr>	
+						</tbody>
+					</table>
+				</div>
+				<!-- </div> -->
+
+					<!-- <div id="rapid-wrapper" class="w3-container">
+							<table id="booking-table" class="booking-table w3-table w3-bordered w3-centered w3-responsive">
+								<thead>
+									<tr>
+										<th class="td-header" style="width:40px;">No</th>
+										<th class="td-header" style="min-width:150px;">Datetime</th>
+										<th class="td-header">Tray</th>
+										<th class="td-header">Wet Weight</th>
+										<th class="td-header">Dry Weight</th>
+										<th class="td-header">Rapid Weight</th>  
+										<th class="td-header">Rapid Moisture</th> 
+										<th class="td-header">Comment</th>
+									</tr>
+								</thead>	
+								<tbody>
+									<tr ng-repeat="x in recordCol.Records">
+										<td class="td-input"><input class="table-input" ng-model="x.Recno"></td>
+										<td class="td-input"><input class="table-input" type="datetime-local" table-input" ng-model="x.Datetime"></td>
+										<td class="td-input"><input class="table-input" ng-model="x.Tray"></td>
+										<td class="td-input"><input class="table-input" ng-model="x.Wet"></td>
+										<td class="td-input"><input class="table-input" ng-model="x.Dry"></td>
+										<td class="td-input"><input class="table-input" ng-model="x.Rapidw"></td>
+										<td class="td-input"><input class="table-input" ng-model="x.Rapidm"></td>
+										<td class="td-input"><input class="table-input" ng-model="x.Comment"></td>
+									</tr>	
+								</tbody>
+							</table>
+						</div> -->
 
 			<!-- <div id="items-wrapper" class="w3-container">
 				<div id="items-{{$index+1}}" ng-repeat="x in recordCol.Records" class="w3-section" id="group-{{$index+1}}">
